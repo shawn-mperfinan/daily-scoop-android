@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package app.daily.scoop.ui.theme
 
 import androidx.compose.ui.graphics.Color
