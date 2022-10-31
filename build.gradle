@@ -27,6 +27,7 @@ subprojects {
 task installGitHook(type: Copy) {
     from new File(rootProject.rootDir, "buildscripts/pre-commit")
     into { new File(rootProject.rootDir, ".git/hooks/") }
+
     fileMode 077
 }
 
