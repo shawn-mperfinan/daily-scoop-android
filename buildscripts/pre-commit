@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Running git pre-commit hook"
 
-./gradlew app:ktlintCheck --daemon
+./gradlew app:ktlintCheck app:detekt --daemon
 
 STATUS=$?
 
