@@ -25,7 +25,7 @@ subprojects {
 
 // This is to inject pre-commit hooks script in .git/hooks and make dev/s benefits on this
 task installGitHook(type: Copy) {
-    from new File(rootProject.rootDir, "../buildscripts/pre-commit")
+    from new File(rootProject.rootDir, "buildscripts/pre-commit")
     into { new File(rootProject.rootDir, ".git/hooks/") }
     fileMode 077
 }
