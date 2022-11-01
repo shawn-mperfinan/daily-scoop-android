@@ -1,5 +1,3 @@
-@file:Suppress("ForbiddenComment")
-
 package app.daily.scoop.data.network.interceptors
 
 import app.daily.scoop.BuildConfig
