@@ -24,7 +24,7 @@ jobs:
       - name: Build Project
         run: ./gradlew assemble
 
-      - name: Run Tests
+      - name: Run All Tests
         run: ./gradlew test
 
       - name: Run Code Analyzers
