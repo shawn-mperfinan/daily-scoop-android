@@ -15,6 +15,7 @@ import app.daily.scoop.ui.theme.DailyScoopTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             DailyScoopTheme {
                 // A surface container using the 'background' color from the theme

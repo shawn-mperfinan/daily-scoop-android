@@ -1,0 +1,15 @@
+apply plugin: "io.gitlab.arturbosch.detekt"
+
+detekt {
+    config = files("${rootProject.projectDir}/config/detekt/detekt.yml")
+
+    /**
+     * To view detekt reports switch your IDE to Project mode then go to:
+     * app -> reports -> detekt
+     */
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        txt.enabled = true
+    }
+}
