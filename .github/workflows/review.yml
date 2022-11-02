@@ -27,6 +27,9 @@ jobs:
 
       - name: Run All Tests
         run: ./gradlew test
+        
+      - name: Run Android Linter
+        run: ./gradlew lint --stacktrace
 
       - name: Run Code Analyzers
         run: ./gradlew ktlintCheck detekt
