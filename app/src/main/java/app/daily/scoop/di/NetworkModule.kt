@@ -42,18 +42,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .client(okHttpClient)
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
-            .build()
-    }
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient
+    ): Retrofit = Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
+        .build()
 
     @Provides
     @Singleton
-    fun provideDailyScoopService(retrofit: Retrofit): NewsService {
-        return retrofit.create(NewsService::class.java)
-    }
+    fun provideDailyScoopService(
+        retrofit: Retrofit
+    ): NewsService = retrofit.create(NewsService::class.java)
 }

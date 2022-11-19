@@ -2,7 +2,7 @@ package app.daily.scoop.data.network.models
 
 import com.google.gson.annotations.SerializedName
 
-data class ErrorResponse(
+data class ErrorResponseDto(
     @SerializedName("status")
     val status: String,
 

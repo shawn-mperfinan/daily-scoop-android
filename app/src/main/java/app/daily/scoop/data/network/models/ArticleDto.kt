@@ -1,8 +1,9 @@
 package app.daily.scoop.data.network.models
 
+import app.daily.scoop.data.database.model.ArticleEntity
 import com.google.gson.annotations.SerializedName
 
-data class Article(
+data class ArticleDto(
 
     @SerializedName("_id")
     val id: String,
@@ -50,7 +51,7 @@ data class Article(
     val authors: String,
 
     @SerializedName("media")
-    val media: String,
+    val mediaUrl: String,
 
     @SerializedName("is_opinion")
     val isOpinion: Boolean,
@@ -60,4 +61,17 @@ data class Article(
 
     @SerializedName("_score")
     val score: Double?
+)
+
+fun ArticleDto.asEntityModel() = ArticleEntity(
+    title = title,
+    author = author,
+    excerpt = excerpt,
+    summary = summary,
+    topic = topic,
+    publishedDate = publishedDate,
+    originalNewsLink = link,
+    sourceLink = cleanUrl,
+    mediaUrl = mediaUrl,
+    externalId = id
 )
