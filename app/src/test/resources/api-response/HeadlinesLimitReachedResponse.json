@@ -1,0 +1,5 @@
+{
+  "status": "error",
+  "error_code": "LimitReached",
+  "message": "Monthly API calls limit reached: 50"
+}

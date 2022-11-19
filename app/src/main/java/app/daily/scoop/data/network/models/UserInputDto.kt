@@ -2,7 +2,7 @@ package app.daily.scoop.data.network.models
 
 import com.google.gson.annotations.SerializedName
 
-data class UserInput(
+data class UserInputDto(
 
     @SerializedName("lang")
     val language: List<String>,

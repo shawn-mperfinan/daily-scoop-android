@@ -2,7 +2,7 @@ package app.daily.scoop.data.datasources
 
 import app.daily.scoop.data.network.ApiResult
 import app.daily.scoop.data.network.NewsService
-import app.daily.scoop.data.network.models.NewsResponse
+import app.daily.scoop.data.network.models.NewsResponseDto
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,7 +23,7 @@ class NewsNetworkDataSource @Inject constructor(
         language: String,
         country: String,
         topic: String?
-    ): ApiResult<NewsResponse> {
+    ): ApiResult<NewsResponseDto> {
         return newsService.getLatestHeadlines(
             timePeriod = timePeriod,
             language = language,

@@ -3,7 +3,7 @@
 package app.daily.scoop.data.network.adapter
 
 import app.daily.scoop.data.network.ApiResult
-import app.daily.scoop.data.network.models.ErrorResponse
+import app.daily.scoop.data.network.models.ErrorResponseDto
 import com.google.gson.Gson
 import okhttp3.Request
 import okhttp3.ResponseBody
@@ -53,7 +53,7 @@ class NetworkResultCall<T : Any>(
     }
 
     private fun getErrorMessage(errorBody: ResponseBody?): String {
-        val errorResponse = Gson().fromJson(errorBody?.string(), ErrorResponse::class.java)
+        val errorResponse = Gson().fromJson(errorBody?.string(), ErrorResponseDto::class.java)
         return errorResponse.errorMessage
     }
 

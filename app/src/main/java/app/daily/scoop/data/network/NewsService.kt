@@ -1,6 +1,6 @@
 package app.daily.scoop.data.network
 
-import app.daily.scoop.data.network.models.NewsResponse
+import app.daily.scoop.data.network.models.NewsResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,5 +13,5 @@ interface NewsService {
         @Query("countries") country: String,
         @Query("topic") topic: String?,
         @Query("page_size") pageSize: Int,
-    ): ApiResult<NewsResponse>
+    ): ApiResult<NewsResponseDto>
 }

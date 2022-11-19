@@ -2,7 +2,7 @@ package app.daily.scoop.data.network.models
 
 import com.google.gson.annotations.SerializedName
 
-data class NewsResponse(
+data class NewsResponseDto(
     @SerializedName("status")
     val status: String,
 
@@ -19,8 +19,8 @@ data class NewsResponse(
     val pageSize: Int,
 
     @SerializedName("articles")
-    val articles: List<Article>,
+    val articles: List<ArticleDto>,
 
     @SerializedName("user_input")
-    val userInput: UserInput
+    val userInput: UserInputDto
 )

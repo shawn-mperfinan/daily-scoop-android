@@ -1,4 +1,4 @@
-package app.daily.scoop
+package app.daily.scoop.datasources.network
 
 import app.daily.scoop.data.network.adapter.NetworkResultCallAdapterFactory
 import okhttp3.OkHttpClient
