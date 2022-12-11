@@ -3,16 +3,17 @@ package app.daily.scoop
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import app.daily.scoop.data.database.NewsDatabase
 import app.daily.scoop.data.database.dao.NewsArticleDao
-import app.daily.scoop.data.database.model.ArticleEntity
 import app.daily.scoop.data.database.model.subset.HeadlineSubSet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.Matchers.hasSize
+import org.hamcrest.collection.IsArrayContaining.hasItemInArray
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.Test
 class NewsDatabaseTest {
 
     private lateinit var newsDatabase: NewsDatabase
+
     private lateinit var newsArticleDao: NewsArticleDao
 
     @BeforeEach
@@ -36,72 +38,29 @@ class NewsDatabaseTest {
 
     @Test
     fun newsArticleDao_insert_articles() = runTest {
-        val newsArticles = testArticleEntities()
-        newsArticleDao.insertArticles(newsArticles)
+        newsArticleDao.insertArticles(FakeDataSource.localNewsArticles)
 
-        val fetchedHeadlines = newsArticleDao.getHeadlines()
-        assertEquals(
-            listOf(1, 2, 3),
-            fetchedHeadlines.map(HeadlineSubSet::id)
-        )
+        val newsHeadlineIds = newsArticleDao.getHeadlines().map(HeadlineSubSet::id)
+        assertThat(newsHeadlineIds, equalTo(listOf(1, 2)))
     }
 
     @Test
     fun newsArticleDao_get_headlines() = runTest {
-        val newsArticles = testArticleEntities()
-        newsArticleDao.insertArticles(newsArticles)
+        newsArticleDao.insertArticles(FakeDataSource.localNewsArticles)
 
-        val fetchedHeadlines = newsArticleDao.getHeadlines()
-        assertEquals(
-            listOf(1, 2, 3),
-            fetchedHeadlines.map(HeadlineSubSet::id)
-        )
-
-        val headlineItem = testHeadlineItem()
-        assertTrue(fetchedHeadlines.contains(headlineItem))
+        val newsHeadlines = newsArticleDao.getHeadlines()
+        assertThat(newsHeadlines, hasSize(2))
+        assertThat(newsHeadlines.toTypedArray(), hasItemInArray(FakeDataSource.localHeadline2))
     }
 
     @Test
     fun newsArticleDao_get_article_info() = runTest {
-        val newsArticles = testArticleEntities()
-        newsArticleDao.insertArticles(newsArticles)
+        newsArticleDao.insertArticles(FakeDataSource.localNewsArticles)
 
-        val fetchedArticleInfo = newsArticleDao.getArticleInfo(
+        val newsArticleInfo = newsArticleDao.getArticleInfo(
             newsId = 1,
-            externalId = "externalId_1"
+            externalId = "2665f479d34776dc7220786ce0658b58"
         ).first()
-        assertEquals(
-            testArticleEntities().first(),
-            fetchedArticleInfo
-        )
+        assertThat(newsArticleInfo, equalTo(FakeDataSource.localNewsArticle1))
     }
 }
-
-private fun testArticleEntities(): List<ArticleEntity> = listOf(
-    testArticleEntity(id = 1, title = "title_1"),
-    testArticleEntity(id = 2, title = "title_2"),
-    testArticleEntity(id = 3, title = "title_2")
-)
-
-private fun testArticleEntity(id: Int, title: String): ArticleEntity = ArticleEntity(
-    id = id,
-    title = title,
-    author = "",
-    excerpt = "",
-    summary = "",
-    topic = "",
-    publishedDate = "",
-    originalNewsLink = "",
-    sourceLink = "",
-    mediaUrl = "",
-    externalId = "externalId_$id"
-)
-
-private fun testHeadlineItem(): HeadlineSubSet = HeadlineSubSet(
-    id = 1,
-    title = "title_1",
-    topic = "",
-    publishedDate = "",
-    mediaUrl = "",
-    externalId = "externalId_1"
-)
