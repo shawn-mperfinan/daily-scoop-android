@@ -57,7 +57,7 @@ data class ArticleDto(
     val isOpinion: Boolean,
 
     @SerializedName("twitter_account")
-    val twitterAccount: String,
+    val twitterAccount: String?,
 
     @SerializedName("_score")
     val score: Double?

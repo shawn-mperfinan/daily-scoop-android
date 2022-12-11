@@ -1,15 +1,16 @@
-package app.daily.scoop.data.datasources
+package app.daily.scoop.data.source.remote
 
 import app.daily.scoop.data.network.ApiResult
 import app.daily.scoop.data.network.NewsService
-import app.daily.scoop.data.network.models.NewsResponseDto
+import app.daily.scoop.data.network.models.NewsDto
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class NewsNetworkDataSource @Inject constructor(
+/**
+ * Concrete implementation for utilizing news data by communicating to news catcher api
+ */
+class NewsNetworkDataSourceImpl @Inject constructor(
     private val newsService: NewsService
-) {
+) : NewsNetworkDataSource {
 
     /**
      * Get the latest news headlines given any time period, topic, country or language.
@@ -18,12 +19,12 @@ class NewsNetworkDataSource @Inject constructor(
      * @param country - country where the news publisher is located (e.g. US, PH, JP, KR, DE OR ES).
      * @param topic - (optional) topic to which you want to restrict the articles of your choice (e.g. sports, news).
      */
-    suspend fun getLatestHeadlines(
+    override suspend fun getLatestHeadlines(
         timePeriod: String,
         language: String,
         country: String,
         topic: String?
-    ): ApiResult<NewsResponseDto> {
+    ): ApiResult<NewsDto> {
         return newsService.getLatestHeadlines(
             timePeriod = timePeriod,
             language = language,
