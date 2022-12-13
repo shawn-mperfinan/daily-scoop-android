@@ -10,11 +10,26 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.lifecycleScope
+import app.daily.scoop.data.repositories.INewsRepository
 import app.daily.scoop.ui.theme.DailyScoopTheme
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject lateinit var newsRepository: INewsRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch {
+            newsRepository.getLatestHeadlines().collect {
+                it
+            }
+        }
 
         setContent {
             DailyScoopTheme {

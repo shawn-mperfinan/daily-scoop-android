@@ -3,7 +3,7 @@ package app.daily.scoop.fake.repository
 import app.daily.scoop.Result
 import app.daily.scoop.data.database.model.ArticleEntity
 import app.daily.scoop.data.database.model.asDomainModel
-import app.daily.scoop.data.repositories.NewsRepository
+import app.daily.scoop.data.repositories.INewsRepository
 import app.daily.scoop.fake.FakeDataSource
 import app.daily.scoop.model.Article
 import app.daily.scoop.model.Headline
@@ -11,9 +11,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
- * test double for [NewsRepository]
+ * test double for [INewsRepository]
  */
-class FakeNewsRepositoryImpl : NewsRepository {
+class FakeNewsRepository : INewsRepository {
 
     private val fakeNewsArticles: List<ArticleEntity>
         get() = FakeDataSource.remoteNewsArticles.mapIndexed { index, article ->
