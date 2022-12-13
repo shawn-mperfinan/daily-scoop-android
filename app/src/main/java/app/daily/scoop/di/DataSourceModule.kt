@@ -1,9 +1,9 @@
 package app.daily.scoop.di
 
+import app.daily.scoop.data.source.local.INewsLocalDataSource
 import app.daily.scoop.data.source.local.NewsLocalDataSource
-import app.daily.scoop.data.source.local.NewsLocalDataSourceImpl
+import app.daily.scoop.data.source.remote.INewsNetworkDataSource
 import app.daily.scoop.data.source.remote.NewsNetworkDataSource
-import app.daily.scoop.data.source.remote.NewsNetworkDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,11 +15,11 @@ interface DataSourceModule {
 
     @Binds
     fun bindNewsNetworkDataSource(
-        newsNetworkDataSource: NewsNetworkDataSourceImpl
-    ): NewsNetworkDataSource
+        newsNetworkDataSource: NewsNetworkDataSource
+    ): INewsNetworkDataSource
 
     @Binds
     fun bindNewsLocalDataSource(
-        newsLocalDataSource: NewsLocalDataSourceImpl
-    ): NewsLocalDataSource
+        newsLocalDataSource: NewsLocalDataSource
+    ): INewsLocalDataSource
 }

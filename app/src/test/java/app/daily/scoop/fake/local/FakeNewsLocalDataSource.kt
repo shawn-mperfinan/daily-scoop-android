@@ -3,16 +3,16 @@ package app.daily.scoop.fake.local
 import app.daily.scoop.data.database.model.ArticleEntity
 import app.daily.scoop.data.database.model.asDomainModel
 import app.daily.scoop.data.network.models.ArticleDto
-import app.daily.scoop.data.source.local.NewsLocalDataSource
+import app.daily.scoop.data.source.local.INewsLocalDataSource
 import app.daily.scoop.model.Article
 import app.daily.scoop.model.Headline
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
- * test double for [NewsLocalDataSource]
+ * test double for [INewsLocalDataSource]
  */
-class FakeNewsLocalDataSourceImpl : NewsLocalDataSource {
+class FakeNewsLocalDataSource : INewsLocalDataSource {
 
     private val fakeArticles = mutableListOf<ArticleEntity>()
 

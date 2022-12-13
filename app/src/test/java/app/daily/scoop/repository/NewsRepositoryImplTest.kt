@@ -2,10 +2,10 @@ package app.daily.scoop.repository
 
 import app.cash.turbine.test
 import app.daily.scoop.Result
-import app.daily.scoop.data.repositories.NewsRepositoryImpl
+import app.daily.scoop.data.repositories.NewsRepository
 import app.daily.scoop.fake.FakeDataSource
-import app.daily.scoop.fake.local.FakeNewsLocalDataSourceImpl
-import app.daily.scoop.fake.network.FakeNewsNetworkDataSourceImpl
+import app.daily.scoop.fake.local.FakeNewsLocalDataSource
+import app.daily.scoop.fake.network.FakeNewsNetworkDataSource
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -17,20 +17,20 @@ import org.junit.jupiter.api.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class NewsRepositoryImplTest {
 
-    private lateinit var networkDataSource: FakeNewsNetworkDataSourceImpl
+    private lateinit var networkDataSource: FakeNewsNetworkDataSource
 
-    private lateinit var localDataSource: FakeNewsLocalDataSourceImpl
+    private lateinit var localDataSource: FakeNewsLocalDataSource
 
     private lateinit var testDispatcher: TestDispatcher
 
-    private lateinit var newsRepository: NewsRepositoryImpl
+    private lateinit var newsRepository: NewsRepository
 
     @BeforeEach
     fun createNewsRepository() {
-        networkDataSource = FakeNewsNetworkDataSourceImpl()
-        localDataSource = FakeNewsLocalDataSourceImpl()
+        networkDataSource = FakeNewsNetworkDataSource()
+        localDataSource = FakeNewsLocalDataSource()
         testDispatcher = StandardTestDispatcher()
-        newsRepository = NewsRepositoryImpl(
+        newsRepository = NewsRepository(
             networkDataSource = networkDataSource,
             localDataSource = localDataSource,
             ioDispatcher = testDispatcher

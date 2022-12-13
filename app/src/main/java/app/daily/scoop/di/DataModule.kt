@@ -1,7 +1,7 @@
 package app.daily.scoop.di
 
+import app.daily.scoop.data.repositories.INewsRepository
 import app.daily.scoop.data.repositories.NewsRepository
-import app.daily.scoop.data.repositories.NewsRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,6 +13,6 @@ interface DataModule {
 
     @Binds
     fun bindNewsRepository(
-        newsRepository: NewsRepositoryImpl
-    ): NewsRepository
+        newsRepository: NewsRepository
+    ): INewsRepository
 }
