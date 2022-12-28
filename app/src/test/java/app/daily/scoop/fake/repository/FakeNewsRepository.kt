@@ -7,16 +7,19 @@ import app.daily.scoop.data.repositories.INewsRepository
 import app.daily.scoop.fake.FakeDataSource
 import app.daily.scoop.model.Article
 import app.daily.scoop.model.Headline
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.mapLatest
 
 /**
  * test double for [INewsRepository]
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class FakeNewsRepository : INewsRepository {
 
-    private val fakeNewsArticles: List<ArticleEntity>
-        get() = FakeDataSource.remoteNewsArticles.mapIndexed { index, article ->
+    private val articleEntitiesStateFlow = MutableStateFlow(
+        FakeDataSource.remoteNewsArticles.mapIndexed { index, article ->
             ArticleEntity(
                 id = index + 1,
                 title = article.title,
@@ -31,9 +34,10 @@ class FakeNewsRepository : INewsRepository {
                 externalId = article.id
             )
         }
+    )
 
-    private val fakeNewsHeadlines: List<Headline>
-        get() = fakeNewsArticles.map {
+    override fun getLatestHeadlines(): Flow<Result<List<Headline>>> = articleEntitiesStateFlow.mapLatest { articles ->
+        val heads = articles.map {
             Headline(
                 id = it.id,
                 title = it.title,
@@ -43,11 +47,11 @@ class FakeNewsRepository : INewsRepository {
                 externalId = it.externalId
             )
         }
+        Result.Success(heads)
+    }
 
-    override fun getLatestHeadlines(): Flow<Result<List<Headline>>> =
-        MutableStateFlow(Result.Success(fakeNewsHeadlines))
-
-    override fun getArticleInfo(newsId: Int, externalId: String): Flow<Article> = MutableStateFlow(
-        fakeNewsArticles.find { it.id == newsId && it.externalId == externalId }!!.asDomainModel()
-    )
+    override fun getArticleInfo(newsId: Int, externalId: String): Flow<Article> =
+        articleEntitiesStateFlow.mapLatest { articles ->
+            articles.find { it.id == newsId && it.externalId == externalId }!!.asDomainModel()
+        }
 }
