@@ -37,7 +37,7 @@ class FakeNewsRepository : INewsRepository {
     )
 
     override fun getLatestHeadlines(): Flow<Result<List<Headline>>> = articleEntitiesStateFlow.mapLatest { articles ->
-        val heads = articles.map {
+        val headlines = articles.map {
             Headline(
                 id = it.id,
                 title = it.title,
@@ -47,7 +47,7 @@ class FakeNewsRepository : INewsRepository {
                 externalId = it.externalId
             )
         }
-        Result.Success(heads)
+        Result.Success(headlines)
     }
 
     override fun getArticleInfo(newsId: Int, externalId: String): Flow<Article> =
