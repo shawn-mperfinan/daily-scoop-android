@@ -53,7 +53,7 @@ jobs:
         run: ./gradlew ktlintCheck detekt
 
       - name: Create Check Runs
-        uses: peter-evans/create-check@v1
+        uses: actions/create-check@v1
         with:
           name: Results
           conclusion: success
