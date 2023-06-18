@@ -69,16 +69,9 @@ jobs:
       - name: Slack Notification
         uses: 8398a7/action-slack@v3
         with:
-          status: custom
-          fields: workflow,job,commit,repo,ref,author,took
-          custom_payload: |
-            {
-              "attachments": [{
-                "color": "${{ job.status }} === 'success' ? 'good' : ${{ job.status }} === 'failure' ? 'danger' : 'warning'",
-                "text": "${{ github.workflow }}\n${{ github.job }} (${{ github.sha }}) of ${{ github.repository }}@${{ github.ref }} by ${{ github.actor }} ${{ job.status }} in ${{ job.completed_at }}"
-              }]
-            }
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest # selectable (default: repo,message)
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         if: always() # Pick up events even if the job fails or is canceled.
 
