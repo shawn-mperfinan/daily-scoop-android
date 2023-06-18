@@ -59,7 +59,7 @@ internal fun NewsScreen(
 
 @Composable
 fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+    Text(text = "Hello Dear: $name!")
 }
 
 @Preview(showBackground = true)
