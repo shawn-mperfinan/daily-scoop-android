@@ -15,7 +15,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
+      - name: Set up Gradle Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Set up local.properties
         run: |
           echo "api_key=$API_KEY" >> $GITHUB_WORKSPACE/local.properties
@@ -29,13 +37,41 @@ jobs:
           java-version: 11
 
       - name: Build Project
+        id: build
         run: ./gradlew assemble
 
       - name: Run All Tests
+        id: test
         run: ./gradlew test
-        
+
       - name: Run Android Linter
+        id: lint
         run: ./gradlew lint --stacktrace
 
       - name: Run Code Analyzers
+        id: analyzers
         run: ./gradlew ktlintCheck detekt
+
+# Fix this Check Runs
+#      - name: Create Check Runs
+#        uses: actions/create-check@v1
+#        with:
+#          name: Results
+#          conclusion: success
+#          output: |
+#            - title: Build
+#              summary: ${{ job.steps.build.conclusion }}
+#            - title: Tests
+#              summary: ${{ job.steps.test.conclusion }}
+#            - title: Code Quality Analyzers
+#              summary: ${{ job.steps.lint.conclusion }} & ${{ job.steps.analyzers.conclusion }}
+
+      - name: Slack Notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,commit,author,action,eventName,ref,workflow,pullRequest # selectable (default: repo,message)
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
+
