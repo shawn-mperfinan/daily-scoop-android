@@ -73,13 +73,9 @@ jobs:
           fields: workflow,job,commit,repo,ref,author,took
           custom_payload: |
             {
-              attachments: [{
-                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
-                text: |
-                  ${process.env.GITHUB_WORKFLOW}
-                  ${process.env.GITHUB_JOB} (${process.env.GITHUB_SHA}) of ${process.env.GITHUB_REPOSITORY}@${process.env.GITHUB_REF}
-                  by ${process.env.GITHUB_ACTOR}
-                  ${{ job.status }} in ${{ job.completed_at }}
+              "attachments": [{
+                "color": "${{ job.status }} === 'success' ? 'good' : ${{ job.status }} === 'failure' ? 'danger' : 'warning'",
+                "text": "${{ github.workflow }}\n${{ github.job }} (${{ github.sha }}) of ${{ github.repository }}@${{ github.ref }} by ${{ github.actor }} ${{ job.status }} in ${{ job.completed_at }}"
               }]
             }
         env:
