@@ -70,6 +70,7 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
+          icon_url: 'https://avatars.slack-edge.com/2023-06-13/5438180261008_bbb3f801c8d84352dc6f_132.png'
           fields: repo,commit,author,action,eventName,ref,workflow,pullRequest # selectable (default: repo,message)
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
