@@ -1,12 +1,46 @@
-#!/bin/sh
+#!/bin/bash
 
-echo "Running git pre-commit hook"
+# Function to display a message
+display_message() {
+  local message="$1"
 
-./gradlew app:lint app:ktlintCheck app:detekt --daemon
+  echo -e "\n***********************************************************************\n"
+  echo $message
+  echo -e "\n***********************************************************************\n"
+}
 
-STATUS=$?
+# Function to run pre-commit checks
+run_pre_commit_checks() {
+  echo "Running git pre-commit hook"
 
-# TODO: improve this script to be more informative
-# return 1 exit code if running check fails
-[ $STATUS -ne 0 ] && exit 1
-exit 0
+  # Run lint checks
+  ./gradlew lint --daemon
+  local lint_status=$?
+
+  # Run ktlint checks
+  ./gradlew ktlintCheck --daemon
+  local ktlint_status=$?
+
+  # Run detekt checks
+  ./gradlew detekt --daemon
+  local detekt_status=$?
+
+  # Define custom status result messages
+  success_message="Pre-commit checks passed. Ready to commit."
+  failure_message="Pre-commit checks failed. Please fix the issues before committing."
+
+  # Check status of all checks
+  if [ $lint_status -ne 0 ] || [ $ktlint_status -ne 0 ] || [ $detekt_status -ne 0 ]; then
+    display_message "$failure_message"
+    return 1
+  fi
+
+  display_message "$success_message"
+  return 0
+}
+
+# Run pre-commit checks
+run_pre_commit_checks
+pre_commit_check_status_result=$?
+
+exit $pre_commit_check_status_result
