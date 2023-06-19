@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 internal fun NewsScreen(
-    viewModel: MainVM = hiltViewModel(),
+    viewModel: MainVM = hiltViewModel()
 ) {
     val newsState: NewsUiState by viewModel.newsUiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
