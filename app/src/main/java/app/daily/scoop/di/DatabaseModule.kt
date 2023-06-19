@@ -22,7 +22,7 @@ object DatabaseModule {
     ): NewsDatabase = Room.databaseBuilder(
         appContext,
         NewsDatabase::class.java,
-        "news-database",
+        "news-database"
     ).build()
 
     @Provides

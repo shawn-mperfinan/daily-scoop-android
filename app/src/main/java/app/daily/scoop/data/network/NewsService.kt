@@ -12,6 +12,6 @@ interface NewsService {
         @Query("lang") language: String,
         @Query("countries") country: String,
         @Query("topic") topic: String?,
-        @Query("page_size") pageSize: Int,
+        @Query("page_size") pageSize: Int
     ): ApiResult<NewsDto>
 }
