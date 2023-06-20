@@ -8,13 +8,13 @@ plugins {
 
 android {
 
-    namespace = "app.daily.scoop"
+    namespace = "com.dailyscoop.app"
 
     compileSdk 33
 
     defaultConfig {
 
-        applicationId "app.daily.scoop"
+        applicationId "com.dailyscoop.app"
 
         minSdk 27
 
