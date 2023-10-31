@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Daily Scoop</string>
+
+    <!--Bottom Navigation Labels-->
+    <string name="home_nav_label">Home</string>
+    <string name="search_nav_label">Search</string>
+    <string name="bookmark_nav_label">Bookmark</string>
+    <string name="profile_nav_label">Profile</string>
+
 </resources>
