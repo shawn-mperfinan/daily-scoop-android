@@ -8,3 +8,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Ignore tracking pre-commit hook as it should only stay locally.
+/buildscripts/pre-commit
