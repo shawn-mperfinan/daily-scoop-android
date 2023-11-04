@@ -26,14 +26,13 @@ jobs:
 
       - name: Set up local.properties
         run: |
-          echo "api_key=$API_KEY" >> $GITHUB_WORKSPACE/local.properties
-        env:
-          API_KEY: ${{ '' }}
-          # comply with github action complain to avoid having null or empty value KEY_STORE_PATH
-          KEY_STORE_PATH: ${{ 'key.jks' }}
-          KEY_STORE_ALIAS: ${{ '' }}
-          KEY_STORE_PASSWORD: ${{ '' }}
-          KEY_STORE_KEY_PASSWORD: ${{ '' }}
+          cat <<EOF > $GITHUB_WORKSPACE/local.properties
+          api_key=${{ '' }}
+          KEY_STORE_PATH=${{ 'key.jks' }}
+          KEY_STORE_ALIAS=${{ '' }}
+          KEY_STORE_PASSWORD=${{ '' }}
+          KEY_STORE_KEY_PASSWORD=${{ '' }}
+          EOF
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
