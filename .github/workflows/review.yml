@@ -29,6 +29,10 @@ jobs:
           echo "api_key=$API_KEY" >> $GITHUB_WORKSPACE/local.properties
         env:
           API_KEY: ${{ '' }}
+          KEY_STORE_PATH: ${{ '' }}
+          KEY_STORE_ALIAS: ${{ '' }}
+          KEY_STORE_PASSWORD: ${{ '' }}
+          KEY_STORE_KEY_PASSWORD: ${{ '' }}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
