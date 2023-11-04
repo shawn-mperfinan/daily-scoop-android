@@ -29,6 +29,7 @@ jobs:
           echo "api_key=$API_KEY" >> $GITHUB_WORKSPACE/local.properties
         env:
           API_KEY: ${{ '' }}
+          # comply with github action complain to avoid having null or empty value KEY_STORE_PATH
           KEY_STORE_PATH: ${{ 'key.jks' }}
           KEY_STORE_ALIAS: ${{ '' }}
           KEY_STORE_PASSWORD: ${{ '' }}
