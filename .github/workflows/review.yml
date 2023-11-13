@@ -16,35 +16,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up Gradle Cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Set up local.properties
-        run: |
-          cat <<EOF > $GITHUB_WORKSPACE/local.properties
-          api_key=${{ '' }}
-          KEY_STORE_PATH=${{ 'key.jks' }}
-          KEY_STORE_ALIAS=${{ '' }}
-          KEY_STORE_PASSWORD=${{ '' }}
-          KEY_STORE_KEY_PASSWORD=${{ '' }}
-          EOF
-
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: 17
 
-      - name: Build Project
-        id: build
-        run: ./gradlew assemble
-
-      - name: Run All Tests
+      - name: Run All Unit Tests
         id: test
         run: ./gradlew test
 
@@ -54,21 +32,7 @@ jobs:
 
       - name: Run Code Analyzers
         id: analyzers
-        run: ./gradlew ktlintCheck detekt
-
-# Fix this Check Runs
-#      - name: Create Check Runs
-#        uses: actions/create-check@v1
-#        with:
-#          name: Results
-#          conclusion: success
-#          output: |
-#            - title: Build
-#              summary: ${{ job.steps.build.conclusion }}
-#            - title: Tests
-#              summary: ${{ job.steps.test.conclusion }}
-#            - title: Code Quality Analyzers
-#              summary: ${{ job.steps.lint.conclusion }} & ${{ job.steps.analyzers.conclusion }}
+        run: ./gradlew ktlintCheck detektº
 
       - name: Slack Notification
         uses: 8398a7/action-slack@v3
