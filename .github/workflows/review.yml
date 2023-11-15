@@ -31,7 +31,9 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Set up Encrypted Keystore File
-        run: echo "${{ secrets.ENCRYPTED_KEYSTORE_CONTENT }}" > release/encrypted_keystore.enc
+        run: |
+          mkdir -p release
+          echo "${{ secrets.ENCRYPTED_KEYSTORE_CONTENT }}" > release/encrypted_keystore.enc
 
       - name: Decrypt Keystore
         run: |
