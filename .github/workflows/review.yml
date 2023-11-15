@@ -37,7 +37,7 @@ jobs:
 
       - name: Decrypt Keystore
         run: |
-          base64 -D -i release/encrypted_keystore.enc | \
+          base64 -d -i release/encrypted_keystore.enc | \
           openssl enc -d -aes-256-cbc -salt -pbkdf2 \
             -pass pass: ${{ secrets.ENCRYPTED_KEYSTORE_PASSPHRASE }} \
             -out release/dailyscoop-keystore.jks
