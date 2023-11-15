@@ -57,10 +57,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file(localProperties.getProperty("KEY_STORE_PATH"))
-            keyAlias = localProperties.getProperty("KEY_STORE_ALIAS")
-            storePassword = localProperties.getProperty("KEY_STORE_PASSWORD")
-            keyPassword = localProperties.getProperty("KEY_STORE_KEY_PASSWORD")
+            storeFile = file("release/dailyscoop-keystore.jks")
+            keyAlias = localProperties.getProperty("SIGNING_KEY_ALIAS")
+            storePassword = localProperties.getProperty("SIGNING_STORE_PASSWORD")
+            keyPassword = localProperties.getProperty("SIGNING_KEY_PASSWORD")
         }
     }
 
