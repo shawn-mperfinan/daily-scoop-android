@@ -44,18 +44,46 @@ android {
              */
             arg("room.incremental", "true")
         }
+    }
 
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file("./local.properties").newDataInputStream())
+    // Initialize for property retrieval on variables defined in [local.properties]
+    def localProperties = new Properties()
+    localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-        // TODO: this needs to be in the build flavor
-        buildConfigField("String", "API_KEY", "\"${properties.getProperty("API_KEY")}\"")
+    signingConfigs {
+        release {
+            storeFile file("release/dailyscoop-keystore.jks")
+            keyAlias localProperties.getProperty("SIGNING_KEY_ALIAS")
+            storePassword localProperties.getProperty("SIGNING_STORE_PASSWORD")
+            keyPassword localProperties.getProperty("SIGNING_KEY_PASSWORD")
+        }
+    }
+
+    flavorDimensions += "type"
+    productFlavors {
+        dev {
+            dimension "type"
+            buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("API_KEY")}\"")
+        }
+
+        live {
+            dimension "type"
+            buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("API_KEY")}\"")
+        }
     }
 
     buildTypes {
+        debug {
+            debuggable true
+            applicationIdSuffix = ".debug"
+        }
+
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
         }
     }
 
@@ -112,6 +140,7 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    // TODO: update this to latest when resumed working with network api calls
     implementation "com.google.code.gson:gson:2.9.1"
     implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
 
