@@ -22,18 +22,36 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - name: Create local.properties
-        run: echo "sdk.dir=/path/to/your/android/sdk" > local.properties
+      - name: Set up Gradle Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Set up Encrypted Keystore File
+        run: echo "${{ secrets.ENCRYPTED_KEYSTORE_CONTENT }}" > release/encrypted_keystore.enc
+
+      - name: Decrypt Keystore
+        run: |
+          base64 -D -i release/encrypted_keystore.enc | \
+          openssl enc -d -aes-256-cbc -salt -pbkdf2 \
+            -pass pass: ${{ secrets.ENCRYPTED_KEYSTORE_PASSPHRASE }} \
+            -out release/dailyscoop-keystore.jks
+
+      - name: Set up local.properties
+        run: |
+          cat <<EOF > $GITHUB_WORKSPACE/local.properties
+          api_key=${{ '' }}
+          KEY_STORE_ALIAS=${{ '' }}
+          KEY_STORE_PASSWORD=${{ '' }}
+          KEY_STORE_KEY_PASSWORD=${{ '' }}
+          EOF
 
       - name: Run All Unit Tests
         id: test
-        run: |
-          if [ -f local.properties ]; then
-            ./gradlew test
-          else
-            echo "local.properties not found. Running tests without Android SDK configuration."
-            ./gradlew test -PdisablePreDex
-          fi
+        run: ./gradlew test
 
       - name: Run Android Linter
         id: lint
@@ -41,7 +59,7 @@ jobs:
 
       - name: Run Code Analyzers
         id: analyzers
-        run: ./gradlew ktlintCheck detektº
+        run: ./gradlew ktlintCheck detekt
 
       - name: Slack Notification
         uses: 8398a7/action-slack@v3
@@ -51,4 +69,3 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         if: always() # Pick up events even if the job fails or is canceled.
-
