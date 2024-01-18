@@ -31,9 +31,9 @@ android {
 
         targetSdk = 34
 
-        versionCode = 1
+        versionCode = getVersionCode()
 
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
@@ -57,7 +57,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("release/dailyscoop-keystore.jks")
+            storeFile = file("../release/dailyscoop-keystore.jks")
             keyAlias = localProperties.getProperty("SIGNING_KEY_ALIAS")
             storePassword = localProperties.getProperty("SIGNING_STORE_PASSWORD")
             keyPassword = localProperties.getProperty("SIGNING_KEY_PASSWORD")
@@ -68,12 +68,13 @@ android {
     productFlavors {
         create("dev") {
             dimension = "type"
-            buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("API_KEY")}\"")
+            versionName = "1.0.0-dev"
+            buildConfigField("String", "NEWS_API_KEY", "\"${localProperties.getProperty("NEWS_API_KEY")}\"")
         }
 
         create("live") {
             dimension = "type"
-            buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("API_KEY")}\"")
+            buildConfigField("String", "NEWS_API_KEY", "\"${localProperties.getProperty("NEWS_API_KEY")}\"")
         }
     }
 
@@ -120,6 +121,21 @@ android {
     }
 
     // TODO: configure testOptions for junit5
+}
+
+// Calculates and get the versionCode based on commit counts
+@Suppress("UnstableApiUsage")
+fun getVersionCode(): Int {
+    // Run the Git command and get the commit count result as an integer
+    val commitCount = providers.exec {
+        commandLine("git", "rev-list", "--no-merges", "--count", "HEAD")
+    }.standardOutput.asText.get().trim().toInt()
+
+    // kindly refer to the current value of versionName based on its MAJOR, MINOR and PATCH value then append 000
+    // current value --> versionName = 1.0.0
+    val semanticVersionCombination = 100000
+
+    return commitCount + semanticVersionCombination
 }
 
 dependencies {

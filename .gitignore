@@ -14,3 +14,9 @@ local.properties
 
 # Do not commit plain-text release keys
 /release/dailyscoop-keystore.jks
+
+# Generated report in fastlane directory
+/fastlane/report.xml
+
+# Ignore Gemfile.lock
+Gemfile.lock
