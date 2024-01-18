@@ -3,9 +3,9 @@ name: Review
 on:
   pull_request:
     branches:
-      - master
-      - dev
       - review
+      - develop
+      - master
 
 jobs:
   review:
@@ -45,7 +45,7 @@ jobs:
       - name: Set up local.properties
         run: |
           cat <<EOF > $GITHUB_WORKSPACE/local.properties
-          api_key=${{ '' }}
+          NEWS_API_KEY=${{ '' }}
           KEY_STORE_ALIAS=${{ '' }}
           KEY_STORE_PASSWORD=${{ '' }}
           KEY_STORE_KEY_PASSWORD=${{ '' }}
