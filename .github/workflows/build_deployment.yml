@@ -36,7 +36,7 @@ jobs:
           base64 -d -i release/encrypted_keystore.enc | \
           openssl enc -d -aes-256-cbc -pbkdf2 \
           -pass pass:"${{ secrets.ENCRYPTED_KEYSTORE_PASSPHRASE }}" \
-          -out ../release/dailyscoop-keystore.jks
+          -out release/dailyscoop-keystore.jks
 
       - name: Set up local.properties
         run: |
