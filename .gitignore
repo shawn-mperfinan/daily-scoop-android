@@ -1,19 +1,22 @@
 *.iml
 .gradle
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-/.idea/jarRepositories.xml
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/misc.xml
-/.idea/gradle.xml
+/.idea/
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+
+# Ignore tracking pre-commit hook as it should only stay locally.
+/buildscripts/pre-commit.sh
+
+# Do not commit plain-text release keys
+/release/dailyscoop-keystore.jks
+
+# Generated report in fastlane directory
+/fastlane/report.xml
+
+# Ignore Gemfile.lock
+Gemfile.lock

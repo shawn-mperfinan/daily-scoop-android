@@ -1,0 +1,122 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+  desc "Deploy a new app version of dev environment"
+  lane :dev do
+    execute_deployment(flavor: "dev")
+  end
+
+  desc "Deploy a new app version of live environment"
+  lane :live do
+    execute_deployment(flavor: "live")
+  end
+
+  desc "Executes build deployment alongside apk/aab generation and CI/CD operations"
+  lane :execute_deployment do |options|
+    # build flavor
+    flavor = options[:flavor]
+
+    # release notes
+    release_notes = get_release_notes
+
+    # build app apk
+    build_apk(flavor: flavor)
+
+    # todo: implement build uploading to app center
+
+    # validate if flavor is qualified for app bundle generation
+    if flavor == "live"
+      # build android app bundle (.aab)
+      build_bundle(flavor: flavor)
+
+      # todo: implement build uploading to google play store
+    end
+
+    # send slack notification message
+    send_slack_message(
+      flavor: flavor,
+      release_notes: release_notes
+    )
+  end
+
+  desc "Build daily scoop app apk"
+  lane :build_apk do |options|
+    # app build flavor
+    flavor = options[:flavor]
+
+    # execute gradle task for apk generation
+    gradle(
+      task: "assemble",
+      flavor: flavor,
+      build_type: "Release"
+    )
+  end
+
+  desc "Build daily scoop app bundle"
+  lane :build_bundle do |options|
+    # app build flavor
+    flavor = options[:flavor]
+
+    # execute gradle task for bundle generation
+    gradle(
+      task: "bundle",
+      flavor: flavor,
+      build_type: "Release"
+    )
+  end
+
+  desc "Sends a slack notification message when the performed deployment succeeded"
+  lane :send_slack_message do |options|
+    # app build flavor
+    flavor = options[:flavor]
+
+    # release notes
+    release_notes = options[:release_notes]
+
+    # downloadable artifact url under github action workflow
+    release_artifact = "https://github.com/shawn-mperfinan/daily-scoop-android/actions/runs/$GITHUB_RUN_ID"
+
+    # slack webhook url based on specific slack channel
+    slack_webhook_url = ENV["SLACK_DEPLOYMENT_WEBHOOK_URL"]
+
+    # slack message to be displayed alongside its deployed build and its downloadable artifact url
+    slack_message = "Daily Scoop App Android (#{flavor.capitalize}) Successfully Released :tada: :tada: :tada:"
+
+    # perform sending of slack message
+    slack(
+      slack_url: slack_webhook_url,
+      message: slack_message,
+      payload: {
+        "View Release Artifact" => release_artifact,
+        "Release Notes" => release_notes,
+      },
+      default_payloads: ["lane", "test_result", "git_branch", "git_author"],
+    )
+  end
+
+  # Gets release notes from Git commits
+  def get_release_notes
+    changelog_from_git_commits(
+      pretty: "- (%ae) %s",
+      date_format: "short",
+      merge_commit_filtering: "exclude_merges"
+    )
+  end
+
+end
