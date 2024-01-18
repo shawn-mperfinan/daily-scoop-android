@@ -36,7 +36,7 @@ jobs:
           base64 -d -i release/encrypted_keystore.enc | \
           openssl enc -d -aes-256-cbc -pbkdf2 \
           -pass pass:"${{ secrets.ENCRYPTED_KEYSTORE_PASSPHRASE }}" \
-          -out release/dailyscoop-keystore.jks
+          -out $GITHUB_WORKSPACE/release/dailyscoop-keystore.jks
 
       - name: Set up local.properties
         run: |
@@ -49,18 +49,6 @@ jobs:
 
       - name: Build and Test
         run: ./gradlew build
-
-      - name: Run All Unit Tests
-        id: test
-        run: ./gradlew test
-
-      - name: Run Android Linter
-        id: lint
-        run: ./gradlew lint --stacktrace
-
-      - name: Run Code Analyzers
-        id: analyzers
-        run: ./gradlew ktlintCheck detekt
 
       - name: Deploy Android Build
         env:
