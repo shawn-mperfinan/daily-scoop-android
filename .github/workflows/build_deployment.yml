@@ -52,6 +52,7 @@ jobs:
 
       - name: Deploy Android Build
         env:
+          GITHUB_RUN_ID: ${{ github.run_id }}
           SLACK_DEPLOYMENT_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOYMENT_WEBHOOK_URL }}
         run: |
           if [ "$GITHUB_REF" = "refs/heads/develop" ]; then

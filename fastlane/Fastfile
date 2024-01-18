@@ -90,7 +90,7 @@ platform :android do
     release_notes = options[:release_notes]
 
     # downloadable artifact url under github action workflow
-    release_artifact = "https://github.com/shawn-mperfinan/daily-scoop-android/actions/runs/$GITHUB_RUN_ID"
+    release_artifact = "https://github.com/shawn-mperfinan/daily-scoop-android/actions/runs/#{ENV["GITHUB_RUN_ID"]}"
 
     # slack webhook url based on specific slack channel
     slack_webhook_url = ENV["SLACK_DEPLOYMENT_WEBHOOK_URL"]
@@ -103,7 +103,7 @@ platform :android do
       slack_url: slack_webhook_url,
       message: slack_message,
       payload: {
-        "View Release Artifact" => release_artifact,
+        "View Released Artifact" => release_artifact,
         "Release Notes" => release_notes,
       },
       default_payloads: ["lane", "test_result", "git_branch", "git_author"],
