@@ -47,6 +47,9 @@ jobs:
           KEY_STORE_KEY_PASSWORD=${{ secrets.SIGNING_KEY_PASSWORD }}
           EOF
 
+      - name: Print local.properties
+        run: cat $GITHUB_WORKSPACE/local.properties
+
       - name: Build and Test
         run: ./gradlew build
 
