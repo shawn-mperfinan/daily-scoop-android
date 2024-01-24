@@ -26,6 +26,11 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true
 
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-disabled: true
+
       - name: Set up Encrypted Keystore File
         run: |
           mkdir -p release
@@ -47,7 +52,7 @@ jobs:
           SIGNING_KEY_PASSWORD=${{ secrets.SIGNING_KEY_PASSWORD }}
           EOF
 
-      - name: Build and Test
+      - name: Execute Gradle Build
         run: ./gradlew build
 
       - name: Deploy Android Build

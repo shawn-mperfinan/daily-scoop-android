@@ -112,8 +112,15 @@ platform :android do
 
   # Gets release notes from Git commits
   def get_release_notes
+    # TODO NOTE:
+    #   To generate release notes for only the commits made since the last release,
+    #   you need to establish a reference point based on the last release or deployment.
+    #   Using annotated tags for releases (i.e. 1.0.0) is a common and effective approach.
+    #   For the meantime commits_count to be included will only be limited to 10.
+
     changelog_from_git_commits(
-      pretty: "- (%ae) %s",
+      commits_count: 10,
+      pretty: "- %s",
       date_format: "short",
       merge_commit_filtering: "exclude_merges"
     )
