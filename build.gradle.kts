@@ -20,22 +20,6 @@ plugins {
 
 // TODO: migrate this to allProjects once modularization is implemented
 subprojects {
-    apply(from = "../buildscripts/ktlint.gradle")
-    apply(from = "../buildscripts/detekt.gradle")
-}
-
-/**
- * This is to inject pre-commit hooks script in .git/hooks and runs the script that will enforces it first to have a
- * passed result before allowing git from pushing any changes to the remote repository.
- *
- * To make use of this, create [pre-commit.sh] bash file under buildscripts directory then copy its content within.
- *
- * Also, said file above is ignored by git to avoid pushing changes as this is only intended to be utilized locally.
- */
-tasks.register("addPreCommitGitHookOnBuild") {
-    println("⚈ ⚈ ⚈ Running Add Pre Commit Git Hook Script on Build ⚈ ⚈ ⚈")
-    exec {
-        commandLine("cp", "../buildscripts/pre-commit.sh", "./.git/hooks")
-    }
-    println("✅ Added Git Pre-Commit Hook Script.")
+    apply(from = "../static_analysis/ktlint.gradle")
+    apply(from = "../static_analysis/detekt.gradle")
 }

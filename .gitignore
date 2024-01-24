@@ -9,9 +9,6 @@
 .cxx
 local.properties
 
-# Ignore tracking pre-commit hook as it should only stay locally.
-/buildscripts/pre-commit.sh
-
 # Do not commit plain-text release keys
 /release/dailyscoop-keystore.jks
 
