@@ -1,4 +1,4 @@
-name: Review
+name: Review Android PR
 
 on:
   pull_request:
@@ -9,7 +9,6 @@ on:
 
 jobs:
   review:
-    name: Review Android PR
     runs-on: ubuntu-latest
 
     steps:
@@ -22,13 +21,8 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - name: Set up Gradle Cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       - name: Set up Encrypted Keystore File
         run: |
