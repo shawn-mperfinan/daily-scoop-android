@@ -19,6 +19,19 @@ plugins {
 }
 
 subprojects {
-    apply from: "../static_analysis/ktlint.gradle"
-    apply from: "../static_analysis/detekt.gradle"
+    apply from: "../buildscripts/ktlint.gradle"
+    apply from: "../buildscripts/detekt.gradle"
+}
+
+// This is to inject pre-commit hooks script in .git/hooks and make dev/s benefits on this
+task installGitHook(type: Copy) {
+    from new File(rootProject.rootDir, "buildscripts/pre-commit")
+    into { new File(rootProject.rootDir, ".git/hooks/") }
+    fileMode 0775
+}
+
+tasks.getByPath(":app:preBuild").dependsOn installGitHook
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
