@@ -12,14 +12,9 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataSourceModule {
+    @Binds
+    fun bindNewsNetworkDataSource(newsNetworkDataSource: NewsNetworkDataSource): INewsNetworkDataSource
 
     @Binds
-    fun bindNewsNetworkDataSource(
-        newsNetworkDataSource: NewsNetworkDataSource
-    ): INewsNetworkDataSource
-
-    @Binds
-    fun bindNewsLocalDataSource(
-        newsLocalDataSource: NewsLocalDataSource
-    ): INewsLocalDataSource
+    fun bindNewsLocalDataSource(newsLocalDataSource: NewsLocalDataSource): INewsLocalDataSource
 }

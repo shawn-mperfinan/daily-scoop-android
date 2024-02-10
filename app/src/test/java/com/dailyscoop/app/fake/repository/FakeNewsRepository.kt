@@ -17,40 +17,45 @@ import kotlinx.coroutines.flow.mapLatest
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 class FakeNewsRepository : INewsRepository {
+    private val articleEntitiesStateFlow =
+        MutableStateFlow(
+            FakeDataSource.remoteNewsArticles.mapIndexed { index, article ->
+                ArticleEntity(
+                    id = index + 1,
+                    title = article.title,
+                    author = article.author,
+                    excerpt = article.excerpt,
+                    summary = article.summary,
+                    topic = article.topic,
+                    publishedDate = article.publishedDate,
+                    originalNewsLink = article.link,
+                    sourceLink = article.cleanUrl,
+                    mediaUrl = article.mediaUrl,
+                    externalId = article.id,
+                )
+            },
+        )
 
-    private val articleEntitiesStateFlow = MutableStateFlow(
-        FakeDataSource.remoteNewsArticles.mapIndexed { index, article ->
-            ArticleEntity(
-                id = index + 1,
-                title = article.title,
-                author = article.author,
-                excerpt = article.excerpt,
-                summary = article.summary,
-                topic = article.topic,
-                publishedDate = article.publishedDate,
-                originalNewsLink = article.link,
-                sourceLink = article.cleanUrl,
-                mediaUrl = article.mediaUrl,
-                externalId = article.id
-            )
+    override fun getLatestHeadlines(): Flow<Result<List<Headline>>> =
+        articleEntitiesStateFlow.mapLatest { articles ->
+            val headlines =
+                articles.map {
+                    Headline(
+                        id = it.id,
+                        title = it.title,
+                        topic = it.topic,
+                        publishedDate = it.publishedDate,
+                        mediaUrl = it.mediaUrl,
+                        externalId = it.externalId,
+                    )
+                }
+            Result.Success(headlines)
         }
-    )
 
-    override fun getLatestHeadlines(): Flow<Result<List<Headline>>> = articleEntitiesStateFlow.mapLatest { articles ->
-        val headlines = articles.map {
-            Headline(
-                id = it.id,
-                title = it.title,
-                topic = it.topic,
-                publishedDate = it.publishedDate,
-                mediaUrl = it.mediaUrl,
-                externalId = it.externalId
-            )
-        }
-        Result.Success(headlines)
-    }
-
-    override fun getArticleInfo(newsId: Int, externalId: String): Flow<Article> =
+    override fun getArticleInfo(
+        newsId: Int,
+        externalId: String,
+    ): Flow<Article> =
         articleEntitiesStateFlow.mapLatest { articles ->
             articles.find { it.id == newsId && it.externalId == externalId }!!.asDomainModel()
         }

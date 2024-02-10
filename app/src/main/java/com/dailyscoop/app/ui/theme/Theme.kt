@@ -12,7 +12,7 @@ import androidx.core.view.WindowCompat
 @Composable
 fun DailyScoopTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = if (useDarkTheme) DailyScoopDarkColorScheme else DailyScoopLightColorScheme
 
@@ -29,6 +29,6 @@ fun DailyScoopTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = typography,
-        content = content
+        content = content,
     )
 }

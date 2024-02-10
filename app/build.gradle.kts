@@ -90,7 +90,7 @@ android {
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             signingConfig = signingConfigs.getByName("release")
         }
@@ -131,9 +131,10 @@ android {
 @Suppress("UnstableApiUsage")
 fun getVersionCode(): Int {
     // Run the Git command and get the commit count result as an integer
-    val commitCount = providers.exec {
-        commandLine("git", "rev-list", "--no-merges", "--count", "HEAD")
-    }.standardOutput.asText.get().trim().toInt()
+    val commitCount =
+        providers.exec {
+            commandLine("git", "rev-list", "--no-merges", "--count", "HEAD")
+        }.standardOutput.asText.get().trim().toInt()
 
     // kindly refer to the current value of versionName based on its MAJOR, MINOR and PATCH value then append 000
     // current value --> versionName = 1.0.0

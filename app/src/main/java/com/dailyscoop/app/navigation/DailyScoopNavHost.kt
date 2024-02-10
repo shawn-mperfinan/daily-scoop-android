@@ -14,12 +14,12 @@ import com.dailyscoop.app.feature.search.navigation.searchScreen
 fun DailyScoopNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = HOME_ROUTE
+    startDestination: String = HOME_ROUTE,
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        modifier = modifier
+        modifier = modifier,
     ) {
         homeScreen()
 

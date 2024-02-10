@@ -11,7 +11,6 @@ import javax.inject.Qualifier
 @Module
 @InstallIn(SingletonComponent::class)
 object DispatchersModule {
-
     @Provides
     @Dispatcher(NewsDispatchers.IO)
     fun provideIODispatcher(): CoroutineDispatcher = Dispatchers.IO
@@ -32,5 +31,5 @@ annotation class Dispatcher(val newsDispatcher: NewsDispatchers)
 enum class NewsDispatchers {
     MAIN,
     IO,
-    DEFAULT
+    DEFAULT,
 }

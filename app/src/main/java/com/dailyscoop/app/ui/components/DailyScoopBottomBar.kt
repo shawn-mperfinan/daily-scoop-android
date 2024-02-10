@@ -28,39 +28,41 @@ fun DailyScoopBottomBar(
     destinations: List<TopLevelDestination>,
     currentDestination: NavDestination?,
     onNavigateToDestinationRoute: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     NavigationBar(
         tonalElevation = 0.dp,
-        modifier = modifier
+        modifier = modifier,
     ) {
         destinations.forEach { destination ->
             val isDestinationSelected = currentDestination.isSelectedMainLevelDestination(destination)
             val navBarItemIcon = if (isDestinationSelected) destination.selectedIcon else destination.unselectedIcon
-            val labelTextStyle = MaterialTheme.typography.labelMedium.copy(
-                fontFamily = if (isDestinationSelected) gilroyMedium else gilroyRegular
-            )
+            val labelTextStyle =
+                MaterialTheme.typography.labelMedium.copy(
+                    fontFamily = if (isDestinationSelected) gilroyMedium else gilroyRegular,
+                )
 
             NavigationBarItem(
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = daily_scoop_eastern_blue,
-                    unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
-                    unselectedTextColor = MaterialTheme.colorScheme.outline
-                ),
+                colors =
+                    NavigationBarItemDefaults.colors(
+                        selectedIconColor = daily_scoop_eastern_blue,
+                        unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
+                        unselectedTextColor = MaterialTheme.colorScheme.outline,
+                    ),
                 selected = isDestinationSelected,
                 label = {
                     Text(
                         stringResource(id = destination.label),
-                        style = labelTextStyle
+                        style = labelTextStyle,
                     )
                 },
                 icon = {
                     Icon(
                         painter = painterResource(navBarItemIcon),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 },
-                onClick = { onNavigateToDestinationRoute(destination.route) }
+                onClick = { onNavigateToDestinationRoute(destination.route) },
             )
         }
     }
@@ -70,13 +72,13 @@ fun DailyScoopBottomBar(
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true,
     backgroundColor = 0xF5F5F7,
-    name = "PreviewLight"
+    name = "PreviewLight",
 )
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true,
-    backgroundColor = 0x1F1D2B,
-    name = "PreviewDark"
+    backgroundColor = 0x1F1D2A,
+    name = "PreviewDark",
 )
 @Composable
 fun DailyScoopBottomBarPreview() {
@@ -85,7 +87,7 @@ fun DailyScoopBottomBarPreview() {
             destinations = topLevelDestinations,
             currentDestination = null,
             onNavigateToDestinationRoute = {},
-            modifier = Modifier.padding(top = 24.dp)
+            modifier = Modifier.padding(top = 24.dp),
         )
     }
 }

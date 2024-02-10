@@ -10,32 +10,32 @@ enum class TopLevelDestination(
     val route: String,
     val label: Int,
     val selectedIcon: Int,
-    val unselectedIcon: Int
+    val unselectedIcon: Int,
 ) {
     HOME(
         route = HOME_ROUTE,
         label = R.string.home_nav_label,
         selectedIcon = R.drawable.ic_home_selected,
-        unselectedIcon = R.drawable.ic_home_unselected
+        unselectedIcon = R.drawable.ic_home_unselected,
     ),
     SEARCH(
         route = SEARCH_ROUTE,
         label = R.string.search_nav_label,
         selectedIcon = R.drawable.ic_search_selected,
-        unselectedIcon = R.drawable.ic_search_unselected
+        unselectedIcon = R.drawable.ic_search_unselected,
     ),
     BOOKMARKS(
         route = BOOKMARKS_ROUTE,
         label = R.string.bookmark_nav_label,
         selectedIcon = R.drawable.ic_bookmarks_selected,
-        unselectedIcon = R.drawable.ic_bookmarks_unselected
+        unselectedIcon = R.drawable.ic_bookmarks_unselected,
     ),
     PROFILE(
         route = PROFILE_ROUTE,
         label = R.string.profile_nav_label,
         selectedIcon = R.drawable.ic_profile_selected,
-        unselectedIcon = R.drawable.ic_profile_unselected
-    )
+        unselectedIcon = R.drawable.ic_profile_unselected,
+    ),
 }
 
 /**

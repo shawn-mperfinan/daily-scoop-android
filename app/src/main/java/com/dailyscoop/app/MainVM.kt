@@ -18,24 +18,27 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class MainVM @Inject constructor(
-    newsRepository: INewsRepository
-) : ViewModel() {
+class MainVM
+    @Inject
+    constructor(
+        newsRepository: INewsRepository,
+    ) : ViewModel() {
+        val newsUiState: StateFlow<NewsUiState> =
+            newsUiState(
+                newsRepository = newsRepository,
+            ).stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = NewsUiState.Loading,
+            )
 
-    val newsUiState: StateFlow<NewsUiState> = newsUiState(
-        newsRepository = newsRepository
-    ).stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = NewsUiState.Loading
-    )
-
-    val articleUiState: StateFlow<ArticleUiState> = articleUiState(newsRepository).stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = ArticleUiState.Loading
-    )
-}
+        val articleUiState: StateFlow<ArticleUiState> =
+            articleUiState(newsRepository).stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = ArticleUiState.Loading,
+            )
+    }
 
 private fun articleUiState(newsRepository: INewsRepository): Flow<ArticleUiState> {
     /**
@@ -45,7 +48,7 @@ private fun articleUiState(newsRepository: INewsRepository): Flow<ArticleUiState
      */
     return newsRepository.getArticleInfo(
         newsId = 2,
-        externalId = "57fe599411e31393e29111b6510c8460"
+        externalId = "57fe599411e31393e29111b6510c8460",
     )
         .asResult()
         .map { result ->
@@ -74,12 +77,16 @@ private fun newsUiState(newsRepository: INewsRepository): Flow<NewsUiState> {
 
 sealed interface NewsUiState {
     data class Success(val headlines: List<Headline>) : NewsUiState
+
     object Error : NewsUiState
+
     object Loading : NewsUiState
 }
 
 sealed interface ArticleUiState {
     data class Success(val article: Article) : ArticleUiState
+
     object Error : ArticleUiState
+
     object Loading : ArticleUiState
 }

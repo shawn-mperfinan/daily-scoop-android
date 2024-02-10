@@ -11,5 +11,5 @@ data class Article(
     val originalNewsLink: String,
     val sourceLink: String,
     val mediaUrl: String,
-    val externalId: String
+    val externalId: String,
 )

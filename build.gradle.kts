@@ -13,8 +13,8 @@ plugins {
     id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
 
     id("com.google.dagger.hilt.android") version "2.48" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "11.4.0" apply false
-    id("io.gitlab.arturbosch.detekt") version "1.23.0" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.0" apply false
+    id("io.gitlab.arturbosch.detekt") version "1.23.4" apply false
     id("de.mannodermaus.android-junit5") version "1.9.3.0" apply false
 }
 

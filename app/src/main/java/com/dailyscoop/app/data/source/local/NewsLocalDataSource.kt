@@ -17,20 +17,24 @@ import javax.inject.Inject
 /**
  * Concrete implementation for utilizing news data by communicating to local room database
  */
-class NewsLocalDataSource @Inject constructor(
-    private val newsArticleDao: NewsArticleDao
-) : INewsLocalDataSource {
+class NewsLocalDataSource
+    @Inject
+    constructor(
+        private val newsArticleDao: NewsArticleDao,
+    ) : INewsLocalDataSource {
+        override suspend fun insertArticles(articles: List<ArticleDto>) {
+            newsArticleDao.insertArticles(articles.map(ArticleDto::asEntityModel))
+        }
 
-    override suspend fun insertArticles(articles: List<ArticleDto>) {
-        newsArticleDao.insertArticles(articles.map(ArticleDto::asEntityModel))
+        override suspend fun getHeadlines(): List<Headline> =
+            newsArticleDao.getHeadlines()
+                .map(HeadlineSubSet::asDomainModel)
+
+        override fun getArticleInfo(
+            newsId: Int,
+            externalId: String,
+        ): Flow<Article> =
+            newsArticleDao.getArticleInfo(newsId, externalId)
+                .distinctUntilChanged()
+                .map(ArticleEntity::asDomainModel)
     }
-
-    override suspend fun getHeadlines(): List<Headline> =
-        newsArticleDao.getHeadlines()
-            .map(HeadlineSubSet::asDomainModel)
-
-    override fun getArticleInfo(newsId: Int, externalId: String): Flow<Article> =
-        newsArticleDao.getArticleInfo(newsId, externalId)
-            .distinctUntilChanged()
-            .map(ArticleEntity::asDomainModel)
-}

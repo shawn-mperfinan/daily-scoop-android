@@ -20,17 +20,17 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object NetworkModule {
-
     private const val BASE_URL = "https://api.newscatcherapi.com/v2/"
 
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
-        val okHttpBuilder = OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
-            .addInterceptor(NewsAuthorizationInterceptor())
+        val okHttpBuilder =
+            OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(NewsAuthorizationInterceptor())
 
         return if (com.dailyscoop.app.BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -42,18 +42,15 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(
-        okHttpClient: OkHttpClient
-    ): Retrofit = Retrofit.Builder()
-        .client(okHttpClient)
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
-        .build()
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
+            .build()
 
     @Provides
     @Singleton
-    fun provideDailyScoopService(
-        retrofit: Retrofit
-    ): NewsService = retrofit.create(NewsService::class.java)
+    fun provideDailyScoopService(retrofit: Retrofit): NewsService = retrofit.create(NewsService::class.java)
 }

@@ -17,19 +17,20 @@ data class ArticleEntity(
     @ColumnInfo(name = "original_news_link") val originalNewsLink: String,
     @ColumnInfo(name = "source_link") val sourceLink: String,
     @ColumnInfo(name = "media_url") val mediaUrl: String,
-    @ColumnInfo(name = "external_id") val externalId: String
+    @ColumnInfo(name = "external_id") val externalId: String,
 )
 
-fun ArticleEntity.asDomainModel() = Article(
-    id = id,
-    title = title,
-    author = author,
-    excerpt = excerpt,
-    summary = summary,
-    topic = topic,
-    publishedDate = publishedDate,
-    originalNewsLink = originalNewsLink,
-    sourceLink = sourceLink,
-    mediaUrl = mediaUrl,
-    externalId = externalId
-)
+fun ArticleEntity.asDomainModel() =
+    Article(
+        id = id,
+        title = title,
+        author = author,
+        excerpt = excerpt,
+        summary = summary,
+        topic = topic,
+        publishedDate = publishedDate,
+        originalNewsLink = originalNewsLink,
+        sourceLink = sourceLink,
+        mediaUrl = mediaUrl,
+        externalId = externalId,
+    )
