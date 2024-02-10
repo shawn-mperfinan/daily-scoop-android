@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NewsArticleDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertArticles(articles: List<ArticleEntity>)
 
@@ -18,7 +17,7 @@ interface NewsArticleDao {
         value = """
             SELECT id, title, topic, published_date, media_url, external_id
             FROM article
-        """
+        """,
     )
     suspend fun getHeadlines(): List<HeadlineSubSet>
 
@@ -26,7 +25,10 @@ interface NewsArticleDao {
         value = """
             SELECT * FROM article
             WHERE id = :newsId AND external_id = :externalId
-        """
+        """,
     )
-    fun getArticleInfo(newsId: Int, externalId: String): Flow<ArticleEntity>
+    fun getArticleInfo(
+        newsId: Int,
+        externalId: String,
+    ): Flow<ArticleEntity>
 }

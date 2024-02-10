@@ -8,9 +8,8 @@ import com.dailyscoop.app.data.database.model.ArticleEntity
 @Database(
     entities = [ArticleEntity::class],
     version = 1,
-    exportSchema = true
+    exportSchema = true,
 )
 abstract class NewsDatabase : RoomDatabase() {
-
     abstract fun newsArticleDao(): NewsArticleDao
 }

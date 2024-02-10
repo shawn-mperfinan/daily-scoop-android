@@ -14,28 +14,31 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 class NetworkResultCall<T : Any>(
-    private val proxy: Call<T>
+    private val proxy: Call<T>,
 ) : Call<ApiResult<T>> {
-
     override fun enqueue(callback: Callback<ApiResult<T>>) {
         proxy.enqueue(
             object : Callback<T> {
-                override fun onResponse(call: Call<T>, response: Response<T>) {
+                override fun onResponse(
+                    call: Call<T>,
+                    response: Response<T>,
+                ) {
                     val networkResult = handleApi { response }
                     callback.onResponse(this@NetworkResultCall, Response.success(networkResult))
                 }
 
-                override fun onFailure(call: Call<T>, t: Throwable) {
+                override fun onFailure(
+                    call: Call<T>,
+                    t: Throwable,
+                ) {
                     val networkResult = ApiResult.Exception<T>(t)
                     callback.onResponse(this@NetworkResultCall, Response.success(networkResult))
                 }
-            }
+            },
         )
     }
 
-    private fun <T : Any> handleApi(
-        execute: () -> Response<T>
-    ): ApiResult<T> {
+    private fun <T : Any> handleApi(execute: () -> Response<T>): ApiResult<T> {
         return try {
             val response = execute()
             val responseBody = response.body()

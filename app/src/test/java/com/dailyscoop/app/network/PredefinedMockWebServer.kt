@@ -13,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.nio.charset.StandardCharsets
 
 open class PredefinedMockWebServer<T> {
-
     private lateinit var mockWebServer: MockWebServer
 
     @BeforeEach
@@ -39,21 +38,25 @@ open class PredefinedMockWebServer<T> {
             .create(serviceClass)
     }
 
-    fun enqueueResponse(fileName: String, statusCode: Int) {
+    fun enqueueResponse(
+        fileName: String,
+        statusCode: Int,
+    ) {
         enqueueResponse(fileName, emptyMap(), statusCode)
     }
 
     private fun enqueueResponse(
         fileName: String,
         headers: Map<String, String>,
-        statusCode: Int
+        statusCode: Int,
     ) {
         val inputStream = javaClass.classLoader!!.getResourceAsStream("api-response/$fileName")
         val source = inputStream.source().buffer()
-        val mockResponse = MockResponse().apply {
-            setBody(source.readString(StandardCharsets.UTF_8))
-            setResponseCode(statusCode)
-        }
+        val mockResponse =
+            MockResponse().apply {
+                setBody(source.readString(StandardCharsets.UTF_8))
+                setResponseCode(statusCode)
+            }
         for ((key, value) in headers) {
             mockResponse.addHeader(key, value)
         }

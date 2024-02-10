@@ -17,40 +17,44 @@ import kotlinx.coroutines.flow.mapLatest
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 class FakeNewsLocalDataSource : INewsLocalDataSource {
-
     private val articleEntitiesStateFlow = MutableStateFlow(listOf<ArticleEntity>())
 
     override suspend fun insertArticles(articles: List<ArticleDto>) {
-        val transformedArticles = articles.mapIndexed { index, article ->
-            ArticleEntity(
-                id = index + 1,
-                title = article.title,
-                author = article.author,
-                excerpt = article.excerpt,
-                summary = article.summary,
-                topic = article.topic,
-                publishedDate = article.publishedDate,
-                originalNewsLink = article.link,
-                sourceLink = article.cleanUrl,
-                mediaUrl = article.mediaUrl,
-                externalId = article.id
-            )
-        }
+        val transformedArticles =
+            articles.mapIndexed { index, article ->
+                ArticleEntity(
+                    id = index + 1,
+                    title = article.title,
+                    author = article.author,
+                    excerpt = article.excerpt,
+                    summary = article.summary,
+                    topic = article.topic,
+                    publishedDate = article.publishedDate,
+                    originalNewsLink = article.link,
+                    sourceLink = article.cleanUrl,
+                    mediaUrl = article.mediaUrl,
+                    externalId = article.id,
+                )
+            }
         articleEntitiesStateFlow.value = transformedArticles
     }
 
-    override suspend fun getHeadlines(): List<Headline> = articleEntitiesStateFlow.first().map {
-        Headline(
-            id = it.id,
-            title = it.title,
-            topic = it.topic,
-            publishedDate = it.publishedDate,
-            mediaUrl = it.mediaUrl,
-            externalId = it.externalId
-        )
-    }
+    override suspend fun getHeadlines(): List<Headline> =
+        articleEntitiesStateFlow.first().map {
+            Headline(
+                id = it.id,
+                title = it.title,
+                topic = it.topic,
+                publishedDate = it.publishedDate,
+                mediaUrl = it.mediaUrl,
+                externalId = it.externalId,
+            )
+        }
 
-    override fun getArticleInfo(newsId: Int, externalId: String): Flow<Article> =
+    override fun getArticleInfo(
+        newsId: Int,
+        externalId: String,
+    ): Flow<Article> =
         articleEntitiesStateFlow.mapLatest { articles ->
             articles.find { article -> article.id == newsId && article.externalId == externalId }!!.asDomainModel()
         }

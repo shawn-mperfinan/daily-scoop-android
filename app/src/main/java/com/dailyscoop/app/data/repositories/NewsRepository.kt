@@ -19,35 +19,39 @@ import javax.inject.Inject
 /**
  * Concrete implementation for utilizing news data by communicating to api and accessing local cache
  */
-class NewsRepository @Inject constructor(
-    private val networkDataSource: INewsNetworkDataSource,
-    private val localDataSource: INewsLocalDataSource,
-    @Dispatcher(NewsDispatchers.IO) private val ioDispatcher: CoroutineDispatcher
-) : INewsRepository {
-
-    override fun getLatestHeadlines() = flow {
-        val cachedHeadlines = localDataSource.getHeadlines()
-        if (cachedHeadlines.isEmpty()) {
-            networkDataSource.getLatestHeadlines(
-                timePeriod = "1d",
-                language = "en",
-                country = "PH",
-                topic = "news"
-            ).onSuccess { response ->
-                localDataSource.apply {
-                    insertArticles(response.articles)
-                    emit(Result.Success(getHeadlines()))
+class NewsRepository
+    @Inject
+    constructor(
+        private val networkDataSource: INewsNetworkDataSource,
+        private val localDataSource: INewsLocalDataSource,
+        @Dispatcher(NewsDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
+    ) : INewsRepository {
+        override fun getLatestHeadlines() =
+            flow {
+                val cachedHeadlines = localDataSource.getHeadlines()
+                if (cachedHeadlines.isEmpty()) {
+                    networkDataSource.getLatestHeadlines(
+                        timePeriod = "1d",
+                        language = "en",
+                        country = "PH",
+                        topic = "news",
+                    ).onSuccess { response ->
+                        localDataSource.apply {
+                            insertArticles(response.articles)
+                            emit(Result.Success(getHeadlines()))
+                        }
+                    }.onError { code, message ->
+                        emit(Result.Error(code, message))
+                    }.onException { throwable ->
+                        emit(Result.Error(message = throwable.message ?: throwable.localizedMessage))
+                    }
+                } else {
+                    emit(Result.Success(cachedHeadlines))
                 }
-            }.onError { code, message ->
-                emit(Result.Error(code, message))
-            }.onException { throwable ->
-                emit(Result.Error(message = throwable.message ?: throwable.localizedMessage))
-            }
-        } else {
-            emit(Result.Success(cachedHeadlines))
-        }
-    }.onStart { Result.Loading }.flowOn(ioDispatcher)
+            }.onStart { Result.Loading }.flowOn(ioDispatcher)
 
-    override fun getArticleInfo(newsId: Int, externalId: String): Flow<Article> =
-        localDataSource.getArticleInfo(newsId = newsId, externalId = externalId)
-}
+        override fun getArticleInfo(
+            newsId: Int,
+            externalId: String,
+        ): Flow<Article> = localDataSource.getArticleInfo(newsId = newsId, externalId = externalId)
+    }

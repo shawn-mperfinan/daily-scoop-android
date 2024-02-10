@@ -19,7 +19,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(MainDispatcherRule::class)
 class MainVMTest {
-
     private lateinit var newsRepository: INewsRepository
 
     private lateinit var viewModel: MainVM
@@ -31,26 +30,30 @@ class MainVMTest {
     }
 
     @Test
-    fun newsUiState_whenInitialized_thenShowLoading() = runTest {
-        assertThat(viewModel.newsUiState.value).isEqualTo(NewsUiState.Loading)
-    }
+    fun newsUiState_whenInitialized_thenShowLoading() =
+        runTest {
+            assertThat(viewModel.newsUiState.value).isEqualTo(NewsUiState.Loading)
+        }
 
     @Test
-    fun articleUiState_whenInitialized_thenShowLoading() = runTest {
-        assertThat(viewModel.articleUiState.value).isEqualTo(ArticleUiState.Loading)
-    }
+    fun articleUiState_whenInitialized_thenShowLoading() =
+        runTest {
+            assertThat(viewModel.articleUiState.value).isEqualTo(ArticleUiState.Loading)
+        }
 
     @Test
-    fun articleUiState_whenSuccess_matchesHeadlinesFromNewsRepository() = runTest {
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.articleUiState.collect() }
+    fun articleUiState_whenSuccess_matchesHeadlinesFromNewsRepository() =
+        runTest {
+            val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.articleUiState.collect() }
 
-        val articleInfoFromRepository = newsRepository.getArticleInfo(
-            newsId = 2,
-            externalId = "57fe599411e31393e29111b6510c8460"
-        ).first()
+            val articleInfoFromRepository =
+                newsRepository.getArticleInfo(
+                    newsId = 2,
+                    externalId = "57fe599411e31393e29111b6510c8460",
+                ).first()
 
-        assertThat(viewModel.articleUiState.value).isEqualTo(ArticleUiState.Success(articleInfoFromRepository))
+            assertThat(viewModel.articleUiState.value).isEqualTo(ArticleUiState.Success(articleInfoFromRepository))
 
-        collectJob.cancel()
-    }
+            collectJob.cancel()
+        }
 }

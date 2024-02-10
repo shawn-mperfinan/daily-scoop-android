@@ -7,85 +7,120 @@ import com.dailyscoop.app.model.Article
 import com.dailyscoop.app.model.Headline
 
 object FakeDataSource {
-
-    val localHeadline1 = Headline(
-        id = 1,
-        title = "F1: Max Verstappen wins US Grand Prix",
-        topic = "news",
-        publishedDate = "2022-10-24 23:45:30",
-        mediaUrl = "https://sports.inquirer.net/files/2022/10/2022-10-24T015205Z_1_LYNXMPEI9N01J_RTROPTP_4_MOTOR-F1-USA-scaled.jpg",
-        externalId = "2665f479d34776dc7220786ce0658b58"
-    )
-
-    val localHeadline2 = Headline(
-        id = 2,
-        title = "NBA: Anthony Edwards, Timberwolves blow by Thunder",
-        topic = "news",
-        publishedDate = "2022-10-24 23:38:07",
-        mediaUrl = "https://sports.inquirer.net/files/2022/10/063_1244093160.jpg",
-        externalId = "57fe599411e31393e29111b6510c8460"
-    )
-
-    val localNewsArticle2 = Article(
-        id = 2,
-        title = "NBA: Anthony Edwards, Timberwolves blow by Thunder",
-        author = "Reuters",
-        excerpt = "Anthony Edwards scored 30 points and grabbed 11 rebounds to lead the Minnesota Timberwolves to a 116-106 win over the host Oklahoma City Thunder on Sunday night. The Timberwolves led by as many",
-        summary = "Anthony Edwards #1 of the Minnesota Timberwolves dribbles the ball while Josh Giddey #3 of the Oklahoma City Thunder defends in the fourth quarter of the game at Target Center on October 19, 2022 in Minneapolis, Minnesota. The Timberwolves defeated the Thunder 115-108. David Berding/Getty Images/AFP\nAnthony Edwards scored 30 points and grabbed 11 rebounds to lead the Minnesota Timberwolves to a 116-106 win over the host Oklahoma City Thunder on Sunday night.\nThe Timberwolves led by as many 18 early, but the Thunder steadily cut the deficit to as little as one by late in the third quarter.",
-        topic = "news",
-        publishedDate = "2022-10-24 23:38:07",
-        originalNewsLink = "https://sports.inquirer.net/?p=482565",
-        sourceLink = "inquirer.net",
-        mediaUrl = "https://sports.inquirer.net/files/2022/10/063_1244093160.jpg",
-        externalId = "57fe599411e31393e29111b6510c8460"
-    )
-
-    val remoteNewsArticles = listOf(
-        ArticleDto(
-            id = "2665f479d34776dc7220786ce0658b58",
+    val localHeadline1 =
+        Headline(
+            id = 1,
             title = "F1: Max Verstappen wins US Grand Prix",
-            author = "Reuters",
-            publishedDate = "2022-10-24 23:45:30",
-            publishedDatePrecision = "timezone unknown",
-            link = "https://sports.inquirer.net/?p=482568",
-            cleanUrl = "inquirer.net",
-            excerpt = "Max Verstappen fought back from a slow pitstop to win the US Grand Prix in Austin on Sunday as his Red Bull team clinched the Formula One constructors' title a day after the death of",
-            summary = "Formula One F1 – United States Grand Prix – Circuit of the Americas, Austin, Texas, U.S. – October 23, 2022 Red Bull team principal Christian Horner, advisor Helmut Marko, Max Verstappen, Sergio Perez, Red bull team and staff celebrate winning the constructors championship REUTERS/Mike Segar\nMax Verstappen fought back from a slow pitstop to win the US Grand Prix in Austin on Sunday as his Red Bull team clinched the Formula One constructors' title a day after the death of billionaire owner Dietrich Mateschitz.",
-            rights = "inquirer.net",
-            rank = 1957,
             topic = "news",
-            country = "PH",
-            language = "en",
-            authors = "Reuters",
+            publishedDate = "2022-10-24 23:45:30",
             mediaUrl = "https://sports.inquirer.net/files/2022/10/2022-10-24T015205Z_1_LYNXMPEI9N01J_RTROPTP_4_MOTOR-F1-USA-scaled.jpg",
-            isOpinion = false,
-            twitterAccount = null,
-            score = null
-        ),
-        ArticleDto(
-            id = "57fe599411e31393e29111b6510c8460",
+            externalId = "2665f479d34776dc7220786ce0658b58",
+        )
+
+    val localHeadline2 =
+        Headline(
+            id = 2,
+            title = "NBA: Anthony Edwards, Timberwolves blow by Thunder",
+            topic = "news",
+            publishedDate = "2022-10-24 23:38:07",
+            mediaUrl = "https://sports.inquirer.net/files/2022/10/063_1244093160.jpg",
+            externalId = "57fe599411e31393e29111b6510c8460",
+        )
+
+    val localNewsArticle2 =
+        Article(
+            id = 2,
             title = "NBA: Anthony Edwards, Timberwolves blow by Thunder",
             author = "Reuters",
-            publishedDate = "2022-10-24 23:38:07",
-            publishedDatePrecision = "timezone unknown",
-            link = "https://sports.inquirer.net/?p=482565",
-            cleanUrl = "inquirer.net",
-            excerpt = "Anthony Edwards scored 30 points and grabbed 11 rebounds to lead the Minnesota Timberwolves to a 116-106 win over the host Oklahoma City Thunder on Sunday night. The Timberwolves led by as many",
-            summary = "Anthony Edwards #1 of the Minnesota Timberwolves dribbles the ball while Josh Giddey #3 of the Oklahoma City Thunder defends in the fourth quarter of the game at Target Center on October 19, 2022 in Minneapolis, Minnesota. The Timberwolves defeated the Thunder 115-108. David Berding/Getty Images/AFP\nAnthony Edwards scored 30 points and grabbed 11 rebounds to lead the Minnesota Timberwolves to a 116-106 win over the host Oklahoma City Thunder on Sunday night.\nThe Timberwolves led by as many 18 early, but the Thunder steadily cut the deficit to as little as one by late in the third quarter.",
-            rights = "inquirer.net",
-            rank = 1957,
+            excerpt =
+                "Anthony Edwards scored 30 points and grabbed 11 rebounds to lead the Minnesota Timberwolves " +
+                    "to a 116-106 win over the host Oklahoma City Thunder on Sunday night. " +
+                    "The Timberwolves led by as many",
+            summary =
+                "Anthony Edwards #1 of the Minnesota Timberwolves dribbles the ball while Josh Giddey #3 " +
+                    "of the Oklahoma City Thunder defends in the fourth quarter of the game at Target Center " +
+                    "on October 19, 2022 in Minneapolis, Minnesota. The Timberwolves defeated the Thunder 115-108. " +
+                    "David Berding/Getty Images/AFP\nAnthony Edwards scored 30 points and grabbed 11 rebounds " +
+                    "to lead the Minnesota Timberwolves to a 116-106 win over the host Oklahoma City Thunder " +
+                    "on Sunday night.\nThe Timberwolves led by as many 18 early, but the Thunder steadily cut " +
+                    "the deficit to as little as one by late in the third quarter.",
             topic = "news",
-            country = "PH",
-            language = "en",
-            authors = "Reuters",
+            publishedDate = "2022-10-24 23:38:07",
+            originalNewsLink = "https://sports.inquirer.net/?p=482565",
+            sourceLink = "inquirer.net",
             mediaUrl = "https://sports.inquirer.net/files/2022/10/063_1244093160.jpg",
-            isOpinion = false,
-            twitterAccount = null,
-            score = null
+            externalId = "57fe599411e31393e29111b6510c8460",
         )
-    )
 
-    val remoteNewsData = """
+    val remoteNewsArticles =
+        listOf(
+            ArticleDto(
+                id = "2665f479d34776dc7220786ce0658b58",
+                title = "F1: Max Verstappen wins US Grand Prix",
+                author = "Reuters",
+                publishedDate = "2022-10-24 23:45:30",
+                publishedDatePrecision = "timezone unknown",
+                link = "https://sports.inquirer.net/?p=482568",
+                cleanUrl = "inquirer.net",
+                excerpt =
+                    "Max Verstappen fought back from a slow pitstop to win the US Grand Prix in Austin " +
+                        "on Sunday as his Red Bull team clinched the Formula One constructors' " +
+                        "title a day after the death of",
+                summary =
+                    "Formula One F1 – United States Grand Prix – Circuit of the Americas, " +
+                        "Austin, Texas, U.S. – October 23, 2022 Red Bull team principal Christian Horner, " +
+                        "advisor Helmut Marko, Max Verstappen, Sergio Perez, Red bull team and staff celebrate " +
+                        "winning the constructors championship REUTERS/Mike Segar\nMax Verstappen fought back from " +
+                        "a slow pitstop to win the US Grand Prix in Austin on Sunday as his Red Bull team clinched " +
+                        "the Formula One constructors' title a day after the death of billionaire owner " +
+                        "Dietrich Mateschitz.",
+                rights = "inquirer.net",
+                rank = 1957,
+                topic = "news",
+                country = "PH",
+                language = "en",
+                authors = "Reuters",
+                mediaUrl = "https://sports.inquirer.net/files/2022/10/2022-10-24T015205Z_1_LYNXMPEI9N01J_RTROPTP_4_MOTOR-F1-USA-scaled.jpg",
+                isOpinion = false,
+                twitterAccount = null,
+                score = null,
+            ),
+            ArticleDto(
+                id = "57fe599411e31393e29111b6510c8460",
+                title = "NBA: Anthony Edwards, Timberwolves blow by Thunder",
+                author = "Reuters",
+                publishedDate = "2022-10-24 23:38:07",
+                publishedDatePrecision = "timezone unknown",
+                link = "https://sports.inquirer.net/?p=482565",
+                cleanUrl = "inquirer.net",
+                excerpt =
+                    "Anthony Edwards scored 30 points and grabbed 11 rebounds to lead the " +
+                        "Minnesota Timberwolves to a 116-106 win over the host Oklahoma City Thunder " +
+                        "on Sunday night. The Timberwolves led by as many",
+                summary =
+                    "Anthony Edwards #1 of the Minnesota Timberwolves dribbles the ball while Josh Giddey #3 " +
+                        "of the Oklahoma City Thunder defends in the fourth quarter of the game at Target Center " +
+                        "on October 19, 2022 in Minneapolis, Minnesota. The Timberwolves " +
+                        "defeated the Thunder 115-108. David Berding/Getty Images/AFP\nAnthony Edwards " +
+                        "scored 30 points and grabbed 11 rebounds to lead the Minnesota Timberwolves to a " +
+                        "116-106 win over the host Oklahoma City Thunder on Sunday night.\nThe Timberwolves led by " +
+                        "as many 18 early, but the Thunder steadily cut the deficit to as little " +
+                        "as one by late in the third quarter.",
+                rights = "inquirer.net",
+                rank = 1957,
+                topic = "news",
+                country = "PH",
+                language = "en",
+                authors = "Reuters",
+                mediaUrl = "https://sports.inquirer.net/files/2022/10/063_1244093160.jpg",
+                isOpinion = false,
+                twitterAccount = null,
+                score = null,
+            ),
+        )
+
+    val remoteNewsData =
+        """
         {
           "status": "ok",
           "total_hits": 909,
@@ -1161,5 +1196,5 @@ object FakeDataSource {
             "from": "2022-10-23 23:46:11"
           }
         }
-    """.trimIndent()
+        """.trimIndent()
 }

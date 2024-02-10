@@ -6,10 +6,12 @@ import com.dailyscoop.app.model.Headline
 import kotlinx.coroutines.flow.Flow
 
 interface INewsLocalDataSource {
-
     suspend fun insertArticles(articles: List<ArticleDto>)
 
     suspend fun getHeadlines(): List<Headline>
 
-    fun getArticleInfo(newsId: Int, externalId: String): Flow<Article>
+    fun getArticleInfo(
+        newsId: Int,
+        externalId: String,
+    ): Flow<Article>
 }

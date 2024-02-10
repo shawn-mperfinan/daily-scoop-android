@@ -1,6 +1,12 @@
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 
 ktlint {
+    version = "1.1.1"
+    android = true
+    verbose = true
+    outputColorName = "RED"
+
+
     /**
      * To view ktlint reports switch your IDE to Project mode then go to:
      * app -> reports -> ktlint
@@ -10,6 +16,8 @@ ktlint {
         reporter "checkstyle"
         reporter "html"
     }
-
-    outputColorName = "RED"
+    filter {
+        exclude("**/generated/**")
+        include("**/kotlin/**")
+    }
 }

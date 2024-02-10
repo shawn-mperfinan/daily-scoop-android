@@ -9,14 +9,15 @@ data class HeadlineSubSet(
     @ColumnInfo(name = "topic") val topic: String,
     @ColumnInfo(name = "published_date") val publishedDate: String,
     @ColumnInfo(name = "media_url") val mediaUrl: String,
-    @ColumnInfo(name = "external_id") val externalId: String
+    @ColumnInfo(name = "external_id") val externalId: String,
 )
 
-fun HeadlineSubSet.asDomainModel() = Headline(
-    id = id,
-    title = title,
-    topic = topic,
-    publishedDate = publishedDate,
-    mediaUrl = mediaUrl,
-    externalId = externalId
-)
+fun HeadlineSubSet.asDomainModel() =
+    Headline(
+        id = id,
+        title = title,
+        topic = topic,
+        publishedDate = publishedDate,
+        mediaUrl = mediaUrl,
+        externalId = externalId,
+    )

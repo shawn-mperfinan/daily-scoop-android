@@ -6,5 +6,5 @@ data class Headline(
     val topic: String,
     val publishedDate: String,
     val mediaUrl: String,
-    val externalId: String
+    val externalId: String,
 )

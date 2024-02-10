@@ -5,12 +5,12 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 class NewsAuthorizationInterceptor : Interceptor {
-
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request()
-            .newBuilder()
-            .addHeader(X_API_KEY, NEWS_API_KEY)
-            .build()
+        val request =
+            chain.request()
+                .newBuilder()
+                .addHeader(X_API_KEY, NEWS_API_KEY)
+                .build()
 
         return chain.proceed(request)
     }

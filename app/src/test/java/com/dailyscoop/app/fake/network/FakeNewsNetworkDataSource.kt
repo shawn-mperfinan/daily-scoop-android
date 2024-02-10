@@ -10,13 +10,12 @@ import com.google.gson.Gson
  * test double for [INewsNetworkDataSource]
  */
 class FakeNewsNetworkDataSource : INewsNetworkDataSource {
-
     private val newsData = Gson().fromJson(FakeDataSource.remoteNewsData, NewsDto::class.java)
 
     override suspend fun getLatestHeadlines(
         timePeriod: String,
         language: String,
         country: String,
-        topic: String?
+        topic: String?,
     ): ApiResult<NewsDto> = ApiResult.Success(newsData)
 }

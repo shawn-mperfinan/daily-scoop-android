@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
 class NewsDatabaseTest {
-
     private lateinit var newsDatabase: NewsDatabase
 
     private lateinit var newsArticleDao: NewsArticleDao
@@ -37,30 +36,34 @@ class NewsDatabaseTest {
     }
 
     @Test
-    fun newsArticleDao_insert_articles() = runTest {
-        newsArticleDao.insertArticles(com.dailyscoop.app.FakeDataSource.localNewsArticles)
+    fun newsArticleDao_insert_articles() =
+        runTest {
+            newsArticleDao.insertArticles(com.dailyscoop.app.FakeDataSource.localNewsArticles)
 
-        val newsHeadlineIds = newsArticleDao.getHeadlines().map(HeadlineSubSet::id)
-        assertThat(newsHeadlineIds, equalTo(listOf(1, 2)))
-    }
-
-    @Test
-    fun newsArticleDao_get_headlines() = runTest {
-        newsArticleDao.insertArticles(com.dailyscoop.app.FakeDataSource.localNewsArticles)
-
-        val newsHeadlines = newsArticleDao.getHeadlines()
-        assertThat(newsHeadlines, hasSize(2))
-        assertThat(newsHeadlines.toTypedArray(), hasItemInArray(com.dailyscoop.app.FakeDataSource.localHeadline2))
-    }
+            val newsHeadlineIds = newsArticleDao.getHeadlines().map(HeadlineSubSet::id)
+            assertThat(newsHeadlineIds, equalTo(listOf(1, 2)))
+        }
 
     @Test
-    fun newsArticleDao_get_article_info() = runTest {
-        newsArticleDao.insertArticles(com.dailyscoop.app.FakeDataSource.localNewsArticles)
+    fun newsArticleDao_get_headlines() =
+        runTest {
+            newsArticleDao.insertArticles(com.dailyscoop.app.FakeDataSource.localNewsArticles)
 
-        val newsArticleInfo = newsArticleDao.getArticleInfo(
-            newsId = 1,
-            externalId = "2665f479d34776dc7220786ce0658b58"
-        ).first()
-        assertThat(newsArticleInfo, equalTo(com.dailyscoop.app.FakeDataSource.localNewsArticle1))
-    }
+            val newsHeadlines = newsArticleDao.getHeadlines()
+            assertThat(newsHeadlines, hasSize(2))
+            assertThat(newsHeadlines.toTypedArray(), hasItemInArray(com.dailyscoop.app.FakeDataSource.localHeadline2))
+        }
+
+    @Test
+    fun newsArticleDao_get_article_info() =
+        runTest {
+            newsArticleDao.insertArticles(com.dailyscoop.app.FakeDataSource.localNewsArticles)
+
+            val newsArticleInfo =
+                newsArticleDao.getArticleInfo(
+                    newsId = 1,
+                    externalId = "2665f479d34776dc7220786ce0658b58",
+                ).first()
+            assertThat(newsArticleInfo, equalTo(com.dailyscoop.app.FakeDataSource.localNewsArticle1))
+        }
 }

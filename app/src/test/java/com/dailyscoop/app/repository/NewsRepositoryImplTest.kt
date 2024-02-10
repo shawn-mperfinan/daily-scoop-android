@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NewsRepositoryImplTest {
-
     private lateinit var networkDataSource: FakeNewsNetworkDataSource
 
     private lateinit var localDataSource: FakeNewsLocalDataSource
@@ -30,41 +29,45 @@ class NewsRepositoryImplTest {
         networkDataSource = FakeNewsNetworkDataSource()
         localDataSource = FakeNewsLocalDataSource()
         testDispatcher = StandardTestDispatcher()
-        newsRepository = NewsRepository(
-            networkDataSource = networkDataSource,
-            localDataSource = localDataSource,
-            ioDispatcher = testDispatcher
-        )
+        newsRepository =
+            NewsRepository(
+                networkDataSource = networkDataSource,
+                localDataSource = localDataSource,
+                ioDispatcher = testDispatcher,
+            )
     }
 
     @Test
-    fun getLatestHeadlines_fetch_data_from_network() = runTest(testDispatcher) {
-        newsRepository.getLatestHeadlines().test {
-            val latestHeadlines = awaitItem() as Result.Success
-            assertThat(latestHeadlines.data.first()).isEqualTo(FakeDataSource.localHeadline1)
-            awaitComplete()
+    fun getLatestHeadlines_fetch_data_from_network() =
+        runTest(testDispatcher) {
+            newsRepository.getLatestHeadlines().test {
+                val latestHeadlines = awaitItem() as Result.Success
+                assertThat(latestHeadlines.data.first()).isEqualTo(FakeDataSource.localHeadline1)
+                awaitComplete()
+            }
         }
-    }
 
     @Test
-    fun getLatestHeadlines_fetch_data_from_local_db() = runTest(testDispatcher) {
-        localDataSource.insertArticles(FakeDataSource.remoteNewsArticles)
-        newsRepository.getLatestHeadlines().test {
-            val latestHeadlines = awaitItem() as Result.Success
-            assertThat(latestHeadlines.data.size).isEqualTo(2)
-            assertThat(latestHeadlines.data.first()).isEqualTo(FakeDataSource.localHeadline1)
-            assertThat(latestHeadlines.data[1]).isEqualTo(FakeDataSource.localHeadline2)
-            awaitComplete()
+    fun getLatestHeadlines_fetch_data_from_local_db() =
+        runTest(testDispatcher) {
+            localDataSource.insertArticles(FakeDataSource.remoteNewsArticles)
+            newsRepository.getLatestHeadlines().test {
+                val latestHeadlines = awaitItem() as Result.Success
+                assertThat(latestHeadlines.data.size).isEqualTo(2)
+                assertThat(latestHeadlines.data.first()).isEqualTo(FakeDataSource.localHeadline1)
+                assertThat(latestHeadlines.data[1]).isEqualTo(FakeDataSource.localHeadline2)
+                awaitComplete()
+            }
         }
-    }
 
     @Test
-    fun getArticleInfo_fetch_article_from_local_db() = runTest {
-        localDataSource.insertArticles(FakeDataSource.remoteNewsArticles)
-        newsRepository.getArticleInfo(newsId = 2, externalId = "57fe599411e31393e29111b6510c8460").test {
-            val newsArticle = awaitItem()
-            assertThat(newsArticle).isEqualTo(FakeDataSource.localNewsArticle2)
-            assertThat(cancelAndConsumeRemainingEvents().isEmpty()).isTrue()
+    fun getArticleInfo_fetch_article_from_local_db() =
+        runTest {
+            localDataSource.insertArticles(FakeDataSource.remoteNewsArticles)
+            newsRepository.getArticleInfo(newsId = 2, externalId = "57fe599411e31393e29111b6510c8460").test {
+                val newsArticle = awaitItem()
+                assertThat(newsArticle).isEqualTo(FakeDataSource.localNewsArticle2)
+                assertThat(cancelAndConsumeRemainingEvents().isEmpty()).isTrue()
+            }
         }
-    }
 }

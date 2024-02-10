@@ -27,17 +27,17 @@ fun DailyScoopApp() {
                 destinations = topLevelDestinations,
                 currentDestination = currentDestination,
                 onNavigateToDestinationRoute = navController::navigateToMainLevelDestinationRoute,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
-        }
+        },
     ) { scaffoldPadding ->
         Surface(
             modifier = Modifier,
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             DailyScoopNavHost(
                 navController = navController,
-                modifier = Modifier.padding(scaffoldPadding)
+                modifier = Modifier.padding(scaffoldPadding),
             )
         }
     }
