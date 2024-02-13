@@ -1,0 +1,64 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="240dp"
+            android:height="240dp"
+            android:viewportWidth="240"
+            android:viewportHeight="240">
+            <group
+                android:name="group"
+                android:pivotX="120"
+                android:pivotY="120"
+                android:scaleX="0.85"
+                android:scaleY="0.85">
+                <path
+                    android:name="path"
+                    android:pathData="M 120 40 C 98.791 40 78.429 48.434 63.431 63.431 C 48.434 78.429 40 98.791 40 120 C 40 141.209 48.434 161.571 63.431 176.569 C 78.429 191.566 98.791 200 120 200 C 141.209 200 161.571 191.566 176.569 176.569 C 191.566 161.571 200 141.209 200 120 C 200 98.791 191.566 78.429 176.569 63.431 C 161.571 48.434 141.209 40 120 40 Z"
+                    android:fillColor="#2e2e2e"
+                    android:strokeWidth="1"/>
+                <path
+                    android:name="path_1"
+                    android:pathData="M 123.025 75 L 75 75 L 75 127.824 L 121.207 174.951 L 123.025 174.951 C 150.625 174.951 173 152.576 173 124.975 C 173 97.375 150.625 75 123.025 75 Z M 123.503 99.488 L 99.01 99.488 L 99.01 150.463 L 123.503 150.463 C 137.579 150.463 148.99 139.052 148.99 124.975 C 148.99 110.899 137.579 99.488 123.503 99.488 Z"
+                    android:fillColor="#18a8b1"
+                    android:strokeWidth="1"
+                    android:fillType="evenOdd"/>
+                <path
+                    android:name="path_2"
+                    android:pathData="M 75 128 L 122 128 L 122 175 L 75 128 Z"
+                    android:fillColor="#fafafa"
+                    android:strokeWidth="1"/>
+                <path
+                    android:name="path_3"
+                    android:pathData="M 122 152 L 129 152 L 129 176 L 122 176 Z"
+                    android:fillColor="#050505"
+                    android:fillAlpha="0.3"
+                    android:strokeWidth="1"/>
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="group">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="scaleX"
+                    android:startOffset="200"
+                    android:duration="500"
+                    android:valueFrom="0"
+                    android:valueTo="0.85"
+                    android:valueType="floatType"
+                    android:interpolator="@android:anim/overshoot_interpolator"/>
+                <objectAnimator
+                    android:propertyName="scaleY"
+                    android:startOffset="200"
+                    android:duration="500"
+                    android:valueFrom="0"
+                    android:valueTo="0.85"
+                    android:valueType="floatType"
+                    android:interpolator="@android:anim/overshoot_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>
