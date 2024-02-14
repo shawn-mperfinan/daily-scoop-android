@@ -30,6 +30,7 @@ fun DailyScoopBottomBar(
     onNavigateToDestinationRoute: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val colorScheme = MaterialTheme.colorScheme
     NavigationBar(
         tonalElevation = 0.dp,
         modifier = modifier,
@@ -37,17 +38,17 @@ fun DailyScoopBottomBar(
         destinations.forEach { destination ->
             val isDestinationSelected = currentDestination.isSelectedMainLevelDestination(destination)
             val navBarItemIcon = if (isDestinationSelected) destination.selectedIcon else destination.unselectedIcon
-            val labelTextStyle =
-                MaterialTheme.typography.labelMedium.copy(
-                    fontFamily = if (isDestinationSelected) gilroyMedium else gilroyRegular,
-                )
+            val labelTextFontFamily = if (isDestinationSelected) gilroyMedium else gilroyRegular
+            val labelTextStyle = MaterialTheme.typography.labelMedium.copy(fontFamily = labelTextFontFamily)
 
             NavigationBarItem(
                 colors =
                     NavigationBarItemDefaults.colors(
+                        indicatorColor = colorScheme.secondaryContainer,
                         selectedIconColor = daily_scoop_eastern_blue,
-                        unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
-                        unselectedTextColor = MaterialTheme.colorScheme.outline,
+                        selectedTextColor = colorScheme.onSurface,
+                        unselectedIconColor = colorScheme.surfaceVariant,
+                        unselectedTextColor = colorScheme.outline,
                     ),
                 selected = isDestinationSelected,
                 label = {
