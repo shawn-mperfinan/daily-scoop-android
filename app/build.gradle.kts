@@ -13,7 +13,7 @@ val localProperties = Properties()
 localProperties.load(project.rootProject.file("local.properties").inputStream())
 
 // Dependencies Extensions - this will be migrated via version catalog
-val composeVersion = "1.6.1"
+val composeVersion = "1.6.2"
 val roomVersion = "2.6.0"
 val hiltVersion = "2.48"
 
