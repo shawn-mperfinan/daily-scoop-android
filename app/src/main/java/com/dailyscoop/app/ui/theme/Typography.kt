@@ -24,14 +24,16 @@ val typography =
         titleLarge =
             TextStyle(
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp,
+                fontSize = 20.sp,
                 lineHeight = 32.sp,
                 letterSpacing = 0.sp,
+                fontFamily = gilroyMedium,
             ),
         bodyLarge =
             TextStyle(
-                fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                fontFamily = gilroyRegular,
                 lineHeight = 24.sp,
                 letterSpacing = 0.15.sp,
             ),
@@ -41,6 +43,14 @@ val typography =
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
                 letterSpacing = 0.25.sp,
+            ),
+        labelLarge =
+            TextStyle(
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp,
+                lineHeight = 20.sp,
+                letterSpacing = 0.sp,
+                fontFamily = gilroyMedium,
             ),
         labelMedium =
             TextStyle(

@@ -15,16 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DailyScoop"
         tools:targetApi="34">
+
+        <!--TODO: remove ignoring LockedOrientationActivity once orientation is not limited anymore to portrait -->
         <activity
             android:name="com.dailyscoop.app.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.App.AnimatedSplash">
+            android:theme="@style/Theme.App.AnimatedSplash"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
