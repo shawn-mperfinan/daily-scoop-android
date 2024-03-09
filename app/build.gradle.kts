@@ -15,7 +15,7 @@ localProperties.load(project.rootProject.file("local.properties").inputStream())
 // Dependencies Extensions - this will be migrated via version catalog
 val composeVersion = "1.6.3"
 val roomVersion = "2.6.0"
-val hiltVersion = "2.48"
+val hiltVersion = "2.51"
 
 android {
 
