@@ -13,9 +13,9 @@ val localProperties = Properties()
 localProperties.load(project.rootProject.file("local.properties").inputStream())
 
 // Dependencies Extensions - this will be migrated via version catalog
-val composeVersion = "1.6.2"
+val composeVersion = "1.6.3"
 val roomVersion = "2.6.0"
-val hiltVersion = "2.48"
+val hiltVersion = "2.51"
 
 android {
 
@@ -146,7 +146,7 @@ fun getVersionCode(): Int {
 
 dependencies {
     implementation("androidx.compose.ui:ui:$composeVersion")
-    implementation("androidx.compose.material3:material3:1.2.0")
+    implementation("androidx.compose.material3:material3:1.2.1")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
@@ -162,9 +162,12 @@ dependencies {
     // Navigation Compose
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
+    // Preferences Datastore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     // Hilt dependencies
     implementation("com.google.dagger:hilt-android:$hiltVersion")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     ksp("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     // Retrofit

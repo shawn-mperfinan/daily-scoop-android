@@ -12,9 +12,9 @@ import com.dailyscoop.app.feature.search.navigation.searchScreen
 
 @Composable
 fun DailyScoopNavHost(
-    modifier: Modifier = Modifier,
     navController: NavHostController,
     startDestination: String,
+    modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,
