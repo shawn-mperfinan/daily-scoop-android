@@ -27,4 +27,4 @@ enum class OnboardingScreenItem(
 /**
  * List of onboarding screen features that can be utilized within the app
  */
-val onboardingScreenItems: List<OnboardingScreenItem> = OnboardingScreenItem.entries
+val onboardingScreenEntries: List<OnboardingScreenItem> = OnboardingScreenItem.entries

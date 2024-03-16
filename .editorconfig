@@ -2,7 +2,4 @@ root = true
 
 [*.{kt,kts}]
 ktlint_function_naming_ignore_when_annotated_with = Composable
-
-# disable below once fully working with classes that have hilt annotations
-# read insights: https://github.com/pinterest/ktlint/issues/2138
-# ktlint_standard_annotation = disabled
+ktlint_standard_annotation = disabled

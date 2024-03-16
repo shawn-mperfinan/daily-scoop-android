@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -36,36 +37,49 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dailyscoop.app.R
 import com.dailyscoop.app.ui.theme.daily_scoop_eastern_blue
 import com.dailyscoop.app.ui.theme.md_theme_light_surface
 import com.dailyscoop.app.utilities.EIGHT_PADDING
 import com.dailyscoop.app.utilities.EMPTY_STRING
 import com.dailyscoop.app.utilities.ONBOARDING_IMAGE_ALPHA
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun OnboardingScreenConnector() {
-    // TODOs: Inject VM here once finalized
+    val viewModel: OnboardingVM = hiltViewModel()
+    val onboardingScreenItems = onboardingScreenEntries
+    val onboardingScreenCounts = onboardingScreenItems.size
+
     OnboardingScreen(
+        pagerState = rememberPagerState { onboardingScreenCounts },
+        onboardingNavigationScope = rememberCoroutineScope(),
+        onboardingScreenItems = onboardingScreenItems,
+        onboardingScreenCounts = onboardingScreenCounts,
         modifier =
             Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
+        onClickStartReading = viewModel::setIsAppFirstLaunch,
     )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun OnboardingScreen(modifier: Modifier = Modifier) {
-    val scope = rememberCoroutineScope()
-    val onboardingScreenCounts = onboardingScreenItems.size
-    val pagerState = rememberPagerState { onboardingScreenCounts }
-
-    val isLastOnboardingScreen = pagerState.currentPage == onboardingScreenItems.lastIndex
-    val shouldShowBackButton = pagerState.currentPage > 0 && !isLastOnboardingScreen
-    val shouldShowNextButton = !isLastOnboardingScreen
-    val shouldShowStartReadingButton = pagerState.currentPage == onboardingScreenItems.lastIndex
+private fun OnboardingScreen(
+    pagerState: PagerState,
+    onboardingNavigationScope: CoroutineScope,
+    onboardingScreenItems: List<OnboardingScreenItem>,
+    onboardingScreenCounts: Int,
+    modifier: Modifier = Modifier,
+    onClickStartReading: (Boolean) -> Unit,
+) {
+    val currentPage = pagerState.currentPage
+    val isLastOnboardingScreen = currentPage == onboardingScreenItems.lastIndex
+    val shouldShowBackButton = currentPage > 0 && !isLastOnboardingScreen
 
     Column(
         modifier = modifier,
@@ -73,36 +87,35 @@ private fun OnboardingScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.SpaceAround,
     ) {
         HorizontalPager(
-            modifier = Modifier.wrapContentSize(),
-            verticalAlignment = Alignment.Top,
             state = pagerState,
+            verticalAlignment = Alignment.Top,
             userScrollEnabled = !isLastOnboardingScreen,
+            modifier = Modifier.wrapContentSize(),
         ) { currentPage ->
             OnboardingPagerContent(currentOnboardingScreen = onboardingScreenItems[currentPage])
         }
 
         PageIndicators(
             pageCount = onboardingScreenCounts,
-            currentPage = pagerState.currentPage,
+            currentPage = currentPage,
             modifier = Modifier.padding(vertical = 40.dp),
         )
 
-        if (shouldShowStartReadingButton) {
-            StartReadingButton()
+        if (isLastOnboardingScreen) {
+            StartReadingButton(onClickStartReading)
         } else {
             OnboardingNavigationButtons(
                 shouldShowBackButton = shouldShowBackButton,
-                shouldShowNextButton = shouldShowNextButton,
                 onBackClick = {
-                    scope.launch {
-                        val previousPage = pagerState.currentPage - 1
-                        pagerState.scrollToPage(previousPage)
+                    onboardingNavigationScope.launch {
+                        val previousPage = currentPage - 1
+                        pagerState.animateScrollToPage(page = previousPage)
                     }
                 },
                 onNextClick = {
-                    scope.launch {
-                        val nextPage = pagerState.currentPage + 1
-                        pagerState.scrollToPage(nextPage)
+                    onboardingNavigationScope.launch {
+                        val nextPage = currentPage + 1
+                        pagerState.animateScrollToPage(nextPage)
                     }
                 },
             )
@@ -181,9 +194,9 @@ private fun SingleDotIndicator(isSelected: Boolean) {
 }
 
 @Composable
-private fun StartReadingButton() {
+private fun StartReadingButton(onClickStartReading: (Boolean) -> Unit) {
     Button(
-        onClick = {},
+        onClick = { onClickStartReading(false) },
         colors = ButtonDefaults.buttonColors().copy(containerColor = daily_scoop_eastern_blue),
         modifier =
             Modifier
@@ -203,7 +216,6 @@ private fun StartReadingButton() {
 @Composable
 private fun OnboardingNavigationButtons(
     shouldShowBackButton: Boolean,
-    shouldShowNextButton: Boolean,
     onBackClick: () -> Unit,
     onNextClick: () -> Unit,
 ) {
@@ -221,13 +233,11 @@ private fun OnboardingNavigationButtons(
             )
         }
 
-        if (shouldShowNextButton) {
-            NavigationButton(
-                buttonLabel = stringResource(id = R.string.next_button_label),
-                fillColor = daily_scoop_eastern_blue,
-                onClick = onNextClick,
-            )
-        }
+        NavigationButton(
+            buttonLabel = stringResource(id = R.string.next_button_label),
+            fillColor = daily_scoop_eastern_blue,
+            onClick = onNextClick,
+        )
     }
 }
 
