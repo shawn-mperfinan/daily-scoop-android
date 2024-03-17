@@ -78,7 +78,7 @@ fun DailyScoopBottomBar(
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true,
-    backgroundColor = 0x1F1D2A,
+    backgroundColor = 0x1F1D2B,
     name = "PreviewDark",
 )
 @Composable
