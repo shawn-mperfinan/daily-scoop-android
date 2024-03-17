@@ -39,6 +39,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dailyscoop.app.R
+import com.dailyscoop.app.ui.core.PhonePreviews
+import com.dailyscoop.app.ui.theme.DailyScoopTheme
 import com.dailyscoop.app.ui.theme.daily_scoop_eastern_blue
 import com.dailyscoop.app.ui.theme.md_theme_light_surface
 import com.dailyscoop.app.utilities.EIGHT_PADDING
@@ -144,7 +146,7 @@ private fun OnboardingPagerContent(currentOnboardingScreen: OnboardingScreenItem
 
         Text(
             modifier = Modifier.padding(vertical = 34.dp),
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleLarge.copy(color = MaterialTheme.colorScheme.surfaceVariant),
             textAlign = TextAlign.Center,
             text = stringResource(id = currentOnboardingScreen.title),
         )
@@ -267,6 +269,28 @@ private fun NavigationButton(
             style = MaterialTheme.typography.labelLarge.copy(color = textColor),
             textAlign = TextAlign.Center,
             text = buttonLabel,
+        )
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@PhonePreviews
+@Composable
+fun OnboardingScreenPreview() {
+    val onboardingScreenItems = onboardingScreenEntries
+    val onboardingScreenCounts = onboardingScreenItems.size
+
+    DailyScoopTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState { onboardingScreenCounts },
+            onboardingNavigationScope = rememberCoroutineScope(),
+            onboardingScreenItems = onboardingScreenItems,
+            onboardingScreenCounts = onboardingScreenCounts,
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+            onClickStartReading = {},
         )
     }
 }
