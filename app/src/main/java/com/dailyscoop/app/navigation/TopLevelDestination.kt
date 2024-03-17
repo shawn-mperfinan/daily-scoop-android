@@ -41,4 +41,4 @@ enum class TopLevelDestination(
 /**
  * Map of main level destinations to be used in the Bottom Bar
  */
-val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
+val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries

@@ -7,4 +7,20 @@
     <string name="bookmark_nav_label">Bookmark</string>
     <string name="profile_nav_label">Profile</string>
 
+    <!--Onboarding Screen Labels-->
+    <string name="home_onboarding_label">Catch Up on Daily Headlines</string>
+    <string name="search_onboarding_label">Discover a Range of News Topics</string>
+    <string name="bookmark_onboarding_label">Never Forget What Matters</string>
+
+    <!--Onboarding Screen Descriptions-->
+    <string name="home_onboarding_description">Start your day informed with our quick and easy-to-navigate home screen. Stay in the loop with the most important headlines, from politics and business to sports and entertainment, all in one glance.</string>
+    <string name="search_onboarding_description">More than just headlines. Delve deeper into the stories that pique your interest and go beyond the surface finding diverse perspectives on hidden insightful analysis on any topic that sparks your curiosity.</string>
+    <string name="bookmark_onboarding_description">Never lose track of the stories that spark your interest. Bookmark articles with a single tap and revisit them later at your convenience. Create personalized reading lists and organize favorite content for easy access.</string>
+
+    <!--Onboarding Button Label-->
+    <string name="start_reading_button_label">Start Reading</string>
+
+    <!--Generic Button Labels-->
+    <string name="back_button_label">Back</string>
+    <string name="next_button_label">Next</string>
 </resources>

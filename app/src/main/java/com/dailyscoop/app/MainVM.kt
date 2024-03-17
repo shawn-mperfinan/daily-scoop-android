@@ -5,40 +5,58 @@ package com.dailyscoop.app
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dailyscoop.app.data.repositories.INewsRepository
+import com.dailyscoop.app.data.repositories.IUserPreferencesRepository
 import com.dailyscoop.app.model.Article
 import com.dailyscoop.app.model.Headline
 import com.dailyscoop.app.utilities.Result
 import com.dailyscoop.app.utilities.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class MainVM
-    @Inject
-    constructor(
-        newsRepository: INewsRepository,
-    ) : ViewModel() {
-        val newsUiState: StateFlow<NewsUiState> =
-            newsUiState(
-                newsRepository = newsRepository,
-            ).stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = NewsUiState.Loading,
-            )
+class MainVM @Inject constructor(
+    newsRepository: INewsRepository,
+    userPreferencesRepository: IUserPreferencesRepository,
+) : ViewModel() {
+    private val _shouldShowSplashScreen = MutableStateFlow(true)
+    val shouldShowSplashScreen: StateFlow<Boolean> = _shouldShowSplashScreen
 
-        val articleUiState: StateFlow<ArticleUiState> =
-            articleUiState(newsRepository).stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = ArticleUiState.Loading,
-            )
+    private val _isAppFirstLaunch = MutableStateFlow(false)
+    val isAppFirstLaunch: StateFlow<Boolean> = _isAppFirstLaunch
+
+    init {
+        userPreferencesRepository.getIsAppFirstLaunch().onEach {
+            _isAppFirstLaunch.value = it
+            delay(300) // Without this delay, the home screen will be shown for a momentum.
+            _shouldShowSplashScreen.value = false
+        }.launchIn(viewModelScope)
     }
+
+    val newsUiState: StateFlow<NewsUiState> =
+        newsUiState(
+            newsRepository = newsRepository,
+        ).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = NewsUiState.Loading,
+        )
+
+    val articleUiState: StateFlow<ArticleUiState> =
+        articleUiState(newsRepository).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = ArticleUiState.Loading,
+        )
+}
 
 private fun articleUiState(newsRepository: INewsRepository): Flow<ArticleUiState> {
     /**

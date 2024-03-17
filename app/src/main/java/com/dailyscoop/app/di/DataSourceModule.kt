@@ -1,5 +1,7 @@
 package com.dailyscoop.app.di
 
+import com.dailyscoop.app.data.source.datastore.IUserPreferencesDatastore
+import com.dailyscoop.app.data.source.datastore.UserPreferencesDatastore
 import com.dailyscoop.app.data.source.local.INewsLocalDataSource
 import com.dailyscoop.app.data.source.local.NewsLocalDataSource
 import com.dailyscoop.app.data.source.remote.INewsNetworkDataSource
@@ -17,4 +19,7 @@ interface DataSourceModule {
 
     @Binds
     fun bindNewsLocalDataSource(newsLocalDataSource: NewsLocalDataSource): INewsLocalDataSource
+
+    @Binds
+    fun bindUserPreferencesDataStore(userPreferencesDatastore: UserPreferencesDatastore): IUserPreferencesDatastore
 }

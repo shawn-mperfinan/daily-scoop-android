@@ -4,7 +4,9 @@ import com.dailyscoop.app.ArticleUiState
 import com.dailyscoop.app.MainVM
 import com.dailyscoop.app.NewsUiState
 import com.dailyscoop.app.data.repositories.INewsRepository
+import com.dailyscoop.app.data.repositories.IUserPreferencesRepository
 import com.dailyscoop.app.fake.repository.FakeNewsRepository
+import com.dailyscoop.app.fake.repository.FakeUserPreferencesRepository
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -21,12 +23,19 @@ import org.junit.jupiter.api.extension.ExtendWith
 class MainVMTest {
     private lateinit var newsRepository: INewsRepository
 
+    private lateinit var userPreferencesRepository: IUserPreferencesRepository
+
     private lateinit var viewModel: MainVM
 
     @BeforeEach
     fun setUp() {
         newsRepository = FakeNewsRepository()
-        viewModel = MainVM(newsRepository = newsRepository)
+        userPreferencesRepository = FakeUserPreferencesRepository()
+        viewModel =
+            MainVM(
+                newsRepository = newsRepository,
+                userPreferencesRepository = userPreferencesRepository,
+            )
     }
 
     @Test
