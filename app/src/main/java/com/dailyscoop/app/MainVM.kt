@@ -5,7 +5,7 @@ package com.dailyscoop.app
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dailyscoop.app.data.repositories.INewsRepository
-import com.dailyscoop.app.data.repositories.UserPreferencesRepository
+import com.dailyscoop.app.data.repositories.IUserPreferencesRepository
 import com.dailyscoop.app.model.Article
 import com.dailyscoop.app.model.Headline
 import com.dailyscoop.app.utilities.Result
@@ -25,7 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainVM @Inject constructor(
     newsRepository: INewsRepository,
-    userPreferencesRepository: UserPreferencesRepository,
+    userPreferencesRepository: IUserPreferencesRepository,
 ) : ViewModel() {
     private val _shouldShowSplashScreen = MutableStateFlow(true)
     val shouldShowSplashScreen: StateFlow<Boolean> = _shouldShowSplashScreen
