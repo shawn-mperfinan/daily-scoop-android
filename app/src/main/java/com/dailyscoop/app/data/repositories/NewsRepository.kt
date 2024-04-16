@@ -1,5 +1,6 @@
 package com.dailyscoop.app.data.repositories
 
+import com.dailyscoop.app.core.model.Article
 import com.dailyscoop.app.data.network.onError
 import com.dailyscoop.app.data.network.onException
 import com.dailyscoop.app.data.network.onSuccess
@@ -7,7 +8,6 @@ import com.dailyscoop.app.data.source.local.INewsLocalDataSource
 import com.dailyscoop.app.data.source.remote.INewsNetworkDataSource
 import com.dailyscoop.app.di.Dispatcher
 import com.dailyscoop.app.di.NewsDispatchers
-import com.dailyscoop.app.model.Article
 import com.dailyscoop.app.utilities.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

@@ -21,23 +21,32 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         // TODOs: splash screen implementation will be improved once integrated with auth feature
-        installSplashScreen().apply {
-            setKeepOnScreenCondition(condition = {
-                viewModel.shouldShowSplashScreen.value
-            })
+        installSplashScreen().setKeepOnScreenCondition {
+            when (viewModel.mainUiState.value) {
+                is MainUiState.Loading -> true
+                is MainUiState.Success -> false
+            }
         }
 
         setContent {
-            val isAppFirstLaunch = viewModel.isAppFirstLaunch.collectAsStateWithLifecycle()
+            val mainUiState = viewModel.mainUiState.collectAsStateWithLifecycle()
 
-            DailyScoopTheme {
-                val mainNavController = rememberNavController()
-                val appEntryStartDestination = if (isAppFirstLaunch.value) ONBOARDING_ROUTE else HOME_ROUTE
+            when (mainUiState.value) {
+                is MainUiState.Loading -> {} // Idle state, no need to show something for now
+                is MainUiState.Success -> {
+                    val userPreferencesState = (mainUiState.value as MainUiState.Success).userPreferencesData
+                    val shouldShowBottomBar = userPreferencesState.shouldShowBottomBar
 
-                DailyScoopApp(
-                    navController = mainNavController,
-                    startDestination = appEntryStartDestination,
-                )
+                    DailyScoopTheme {
+                        val mainNavController = rememberNavController()
+                        val appEntryStartDestination = if (shouldShowBottomBar) ONBOARDING_ROUTE else HOME_ROUTE
+
+                        DailyScoopApp(
+                            navController = mainNavController,
+                            startDestination = appEntryStartDestination,
+                        )
+                    }
+                }
             }
         }
     }

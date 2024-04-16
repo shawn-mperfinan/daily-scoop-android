@@ -1,7 +1,7 @@
 package com.dailyscoop.app.data.database.model.subset
 
 import androidx.room.ColumnInfo
-import com.dailyscoop.app.model.Headline
+import com.dailyscoop.app.core.model.Headline
 
 data class HeadlineSubSet(
     @ColumnInfo(name = "id") val id: Int,

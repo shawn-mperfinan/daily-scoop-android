@@ -1,5 +1,7 @@
 package com.dailyscoop.app.data.source.local
 
+import com.dailyscoop.app.core.model.Article
+import com.dailyscoop.app.core.model.Headline
 import com.dailyscoop.app.data.database.dao.NewsArticleDao
 import com.dailyscoop.app.data.database.model.ArticleEntity
 import com.dailyscoop.app.data.database.model.asDomainModel
@@ -7,8 +9,6 @@ import com.dailyscoop.app.data.database.model.subset.HeadlineSubSet
 import com.dailyscoop.app.data.database.model.subset.asDomainModel
 import com.dailyscoop.app.data.network.models.ArticleDto
 import com.dailyscoop.app.data.network.models.asEntityModel
-import com.dailyscoop.app.model.Article
-import com.dailyscoop.app.model.Headline
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map

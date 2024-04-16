@@ -2,9 +2,9 @@
 
 package com.dailyscoop.app.fake
 
+import com.dailyscoop.app.core.model.Article
+import com.dailyscoop.app.core.model.Headline
 import com.dailyscoop.app.data.network.models.ArticleDto
-import com.dailyscoop.app.model.Article
-import com.dailyscoop.app.model.Headline
 
 object FakeDataSource {
     val localHeadline1 =
