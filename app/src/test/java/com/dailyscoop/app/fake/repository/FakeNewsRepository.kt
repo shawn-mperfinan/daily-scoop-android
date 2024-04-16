@@ -1,11 +1,11 @@
 package com.dailyscoop.app.fake.repository
 
+import com.dailyscoop.app.core.model.Article
+import com.dailyscoop.app.core.model.Headline
 import com.dailyscoop.app.data.database.model.ArticleEntity
 import com.dailyscoop.app.data.database.model.asDomainModel
 import com.dailyscoop.app.data.repositories.INewsRepository
 import com.dailyscoop.app.fake.FakeDataSource
-import com.dailyscoop.app.model.Article
-import com.dailyscoop.app.model.Headline
 import com.dailyscoop.app.utilities.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow

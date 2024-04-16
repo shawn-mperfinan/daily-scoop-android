@@ -1,7 +1,7 @@
 package com.dailyscoop.app.data.repositories
 
-import com.dailyscoop.app.model.Article
-import com.dailyscoop.app.model.Headline
+import com.dailyscoop.app.core.model.Article
+import com.dailyscoop.app.core.model.Headline
 import com.dailyscoop.app.utilities.Result
 import kotlinx.coroutines.flow.Flow
 

@@ -1,4 +1,4 @@
-package com.dailyscoop.app.model
+package com.dailyscoop.app.core.model
 
 data class Headline(
     val id: Int,

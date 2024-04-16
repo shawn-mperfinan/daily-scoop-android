@@ -3,7 +3,7 @@ package com.dailyscoop.app.data.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.dailyscoop.app.model.Article
+import com.dailyscoop.app.core.model.Article
 
 @Entity(tableName = "article")
 data class ArticleEntity(
