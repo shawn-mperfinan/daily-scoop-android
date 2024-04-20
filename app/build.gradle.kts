@@ -13,7 +13,7 @@ val localProperties = Properties()
 localProperties.load(project.rootProject.file("local.properties").inputStream())
 
 // Dependencies Extensions - this will be migrated via version catalog
-val composeVersion = "1.6.3"
+val composeVersion = "1.6.6"
 val roomVersion = "2.6.0"
 val hiltVersion = "2.51"
 
@@ -116,7 +116,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.9"
+        kotlinCompilerExtensionVersion = "1.5.12"
     }
 
     packaging {
@@ -156,14 +156,14 @@ dependencies {
     // Splash Screen
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-    implementation("androidx.activity:activity-ktx:1.8.2")
-    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.activity:activity-ktx:1.9.0")
+    implementation("androidx.activity:activity-compose:1.9.0")
 
     // Navigation Compose
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
     // Preferences Datastore
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.0")
 
     // Hilt dependencies
     implementation("com.google.dagger:hilt-android:$hiltVersion")
