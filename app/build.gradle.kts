@@ -171,10 +171,10 @@ dependencies {
     ksp("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0") // latest is 2.11.0
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0") // latest is 2.11.0
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0") // latest is 4.12.0
 
     // Room
     implementation("androidx.room:room-ktx:$roomVersion")
@@ -183,25 +183,25 @@ dependencies {
     ksp("androidx.room:room-compiler:$roomVersion")
 
     // MockWebserver
-    testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 
     // Writing and executing Unit Tests on the JUnit 5 Platform
     // Stay tuned for official google android support for JUnit 5
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 
     // Needed for unit testing
     testImplementation("androidx.arch.core:core-testing:2.2.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
 
     // Room test helpers
     testImplementation("androidx.room:room-testing:$roomVersion")
 
     // Test Assertion
-    testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation("com.google.truth:truth:1.4.2")
 
     // Turbine
-    testImplementation("app.cash.turbine:turbine:0.12.1")
+    testImplementation("app.cash.turbine:turbine:1.1.0")
 
     // JUnit 5 instrumentation test dependencies
     androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")

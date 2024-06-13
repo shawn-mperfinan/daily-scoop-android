@@ -15,7 +15,7 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.51" apply false
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0" apply false
     id("io.gitlab.arturbosch.detekt") version "1.23.5" apply false
-    id("de.mannodermaus.android-junit5") version "1.9.3.0" apply false
+    id("de.mannodermaus.android-junit5") version "1.10.0.0" apply false
 }
 
 // TODO: migrate this to allProjects once modularization is implemented
