@@ -35,11 +35,11 @@ class MainActivity : ComponentActivity() {
                 is MainUiState.Loading -> {} // Idle state, no need to show something for now
                 is MainUiState.Success -> {
                     val userPreferencesState = (mainUiState.value as MainUiState.Success).userPreferencesData
-                    val shouldShowBottomBar = userPreferencesState.shouldShowBottomBar
+                    val isAppFirstLaunch = userPreferencesState.isAppFirstLaunch
 
                     DailyScoopTheme {
                         val mainNavController = rememberNavController()
-                        val appEntryStartDestination = if (shouldShowBottomBar) ONBOARDING_ROUTE else HOME_ROUTE
+                        val appEntryStartDestination = if (isAppFirstLaunch) ONBOARDING_ROUTE else HOME_ROUTE
 
                         DailyScoopApp(
                             navController = mainNavController,
