@@ -27,6 +27,8 @@ object FakeDataSource {
             externalId = "57fe599411e31393e29111b6510c8460",
         )
 
+    val localNewsHeadlines = listOf(localHeadline1, localHeadline2)
+
     val localNewsArticle2 =
         Article(
             id = 2,

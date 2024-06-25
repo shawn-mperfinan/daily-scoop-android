@@ -8,27 +8,28 @@ import com.dailyscoop.app.fake.network.FakeNewsNetworkDataSource
 import com.dailyscoop.app.utilities.Result
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class NewsRepositoryImplTest {
+class NewsRepositoryTest {
+    private val testDispatcher = UnconfinedTestDispatcher()
+
+    private val testScope = TestScope(testDispatcher)
+
     private lateinit var networkDataSource: FakeNewsNetworkDataSource
 
     private lateinit var localDataSource: FakeNewsLocalDataSource
 
-    private lateinit var testDispatcher: TestDispatcher
-
     private lateinit var newsRepository: NewsRepository
 
     @BeforeEach
-    fun createNewsRepository() {
+    fun setup() {
         networkDataSource = FakeNewsNetworkDataSource()
         localDataSource = FakeNewsLocalDataSource()
-        testDispatcher = StandardTestDispatcher()
         newsRepository =
             NewsRepository(
                 networkDataSource = networkDataSource,
@@ -38,8 +39,8 @@ class NewsRepositoryImplTest {
     }
 
     @Test
-    fun getLatestHeadlines_fetch_data_from_network() =
-        runTest(testDispatcher) {
+    fun `getLatestHeadlines should retrieve latest news headlines from remote api when no existing cached headlines`() =
+        testScope.runTest {
             newsRepository.getLatestHeadlines().test {
                 val latestHeadlines = awaitItem() as Result.Success
                 assertThat(latestHeadlines.data.first()).isEqualTo(FakeDataSource.localHeadline1)
@@ -48,24 +49,31 @@ class NewsRepositoryImplTest {
         }
 
     @Test
-    fun getLatestHeadlines_fetch_data_from_local_db() =
-        runTest(testDispatcher) {
+    fun `getLatestHeadlines should retrieve expected news headlines from local db when there are existing ones`() =
+        testScope.runTest {
             localDataSource.insertArticles(FakeDataSource.remoteNewsArticles)
+
             newsRepository.getLatestHeadlines().test {
-                val latestHeadlines = awaitItem() as Result.Success
-                assertThat(latestHeadlines.data.size).isEqualTo(2)
-                assertThat(latestHeadlines.data.first()).isEqualTo(FakeDataSource.localHeadline1)
-                assertThat(latestHeadlines.data[1]).isEqualTo(FakeDataSource.localHeadline2)
+                val cachedHeadlines = awaitItem() as Result.Success
+
+                assertThat(cachedHeadlines.data.size).isEqualTo(2)
+                assertThat(cachedHeadlines.data).isEqualTo(FakeDataSource.localNewsHeadlines)
+
                 awaitComplete()
             }
         }
 
     @Test
-    fun getArticleInfo_fetch_article_from_local_db() =
-        runTest {
+    fun `getArticleInfo should retrieve specific news article from local db when there are cached news headlines`() =
+        testScope.runTest {
             localDataSource.insertArticles(FakeDataSource.remoteNewsArticles)
-            newsRepository.getArticleInfo(newsId = 2, externalId = "57fe599411e31393e29111b6510c8460").test {
+
+            newsRepository.getArticleInfo(
+                newsId = 2,
+                externalId = "57fe599411e31393e29111b6510c8460",
+            ).test {
                 val newsArticle = awaitItem()
+
                 assertThat(newsArticle).isEqualTo(FakeDataSource.localNewsArticle2)
                 assertThat(cancelAndConsumeRemainingEvents().isEmpty()).isTrue()
             }
