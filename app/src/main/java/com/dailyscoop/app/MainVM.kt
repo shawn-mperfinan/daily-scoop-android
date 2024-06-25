@@ -27,7 +27,7 @@ class MainVM @Inject constructor(
     val mainUiState: StateFlow<MainUiState> =
         userPreferencesRepository.getIsAppFirstLaunch().map {
             MainUiState.Success(
-                UserPreferencesData(shouldShowBottomBar = it),
+                UserPreferencesData(isAppFirstLaunch = it),
             )
         }.stateIn(
             scope = viewModelScope,
