@@ -7,16 +7,20 @@ import com.dailyscoop.app.data.network.onError
 import com.dailyscoop.app.data.network.onSuccess
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
 class NewsServiceTest : PredefinedMockWebServer<NewsService>() {
+    private val testScope = TestScope(UnconfinedTestDispatcher())
+
     private lateinit var newsService: NewsService
 
     @BeforeEach
-    fun createNewsService() {
+    fun setup() {
         newsService = createService(NewsService::class.java)
     }
 
@@ -31,8 +35,8 @@ class NewsServiceTest : PredefinedMockWebServer<NewsService>() {
     }
 
     @Test
-    fun getLatestHeadlines_invalid_key_response() =
-        runTest {
+    fun `getLatestHeadlines should retrieve 401 response when api key is invalid`() =
+        testScope.runTest {
             enqueueResponse(fileName = "HeadlinesUnauthorizedOrBadRequestResponse.json", statusCode = 401)
             val response = getLatestHeadlines()
 
@@ -43,8 +47,8 @@ class NewsServiceTest : PredefinedMockWebServer<NewsService>() {
         }
 
     @Test
-    fun getLatestHeadlines_limit_reached_response() =
-        runTest {
+    fun `getLatestHeadlines should retrieve 401 response when monthly api calls limit reached`() =
+        testScope.runTest {
             enqueueResponse(fileName = "HeadlinesLimitReachedResponse.json", statusCode = 401)
             val response = getLatestHeadlines()
 
@@ -55,8 +59,8 @@ class NewsServiceTest : PredefinedMockWebServer<NewsService>() {
         }
 
     @Test
-    fun getLatestHeadlines_bad_request_response() =
-        runTest {
+    fun `getLatestHeadlines should retrieve 400 response when bad request`() =
+        testScope.runTest {
             enqueueResponse(fileName = "HeadlinesUnauthorizedOrBadRequestResponse.json", statusCode = 400)
             val response = getLatestHeadlines()
 
@@ -67,15 +71,17 @@ class NewsServiceTest : PredefinedMockWebServer<NewsService>() {
         }
 
     @Test
-    fun getLatestHeadlines_successful_response() =
-        runTest {
+    fun `getLatestHeadlines should retrieve 200 response when valid request`() =
+        testScope.runTest {
             enqueueResponse(fileName = "HeadlinesSuccessfulResponse.json", statusCode = 200)
             val response = getLatestHeadlines()
 
             response.onSuccess { newsResponse ->
                 val newsFirstItem = newsResponse.articles.first()
+
                 assertThat(newsResponse.articles.isNotEmpty()).isTrue()
                 assertThat(newsResponse.totalHits).isEqualTo(909)
+
                 assertThat(newsFirstItem.title).isEqualTo("F1: Max Verstappen wins US Grand Prix")
                 assertThat(newsFirstItem.author).isEqualTo("Reuters")
                 assertThat(newsFirstItem.country).isEqualTo("PH")
