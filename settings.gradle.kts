@@ -16,6 +16,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Daily Scoop"
+rootProject.name = "dailyscoop"
 
 include(":app")
