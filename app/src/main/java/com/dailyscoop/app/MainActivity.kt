@@ -7,8 +7,8 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.dailyscoop.app.feature.home.navigation.HOME_ROUTE
-import com.dailyscoop.app.feature.onboarding.navigation.ONBOARDING_ROUTE
+import com.dailyscoop.app.feature.home.navigation.HomeRoute
+import com.dailyscoop.app.feature.onboarding.navigation.OnboardingRoute
 import com.dailyscoop.app.ui.DailyScoopApp
 import com.dailyscoop.app.ui.theme.DailyScoopTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,11 +39,11 @@ class MainActivity : ComponentActivity() {
 
                     DailyScoopTheme {
                         val mainNavController = rememberNavController()
-                        val appEntryStartDestination = if (isAppFirstLaunch) ONBOARDING_ROUTE else HOME_ROUTE
+                        val startDestination = if (isAppFirstLaunch) OnboardingRoute::class else HomeRoute::class
 
                         DailyScoopApp(
                             navController = mainNavController,
-                            startDestination = appEntryStartDestination,
+                            startDestination = startDestination,
                         )
                     }
                 }

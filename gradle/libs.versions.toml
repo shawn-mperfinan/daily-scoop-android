@@ -25,6 +25,9 @@ testExtJUnit = "1.2.1"
 testEspressoCore = "3.6.1"
 testComposeUi = "1.7.8"
 
+# Jetbrains
+kotlinxSerialization = "1.8.0"
+
 # Google
 hiltAndroid = "2.51.1"
 truth = "1.4.2"
@@ -49,6 +52,7 @@ android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devtoolsKsp" }
 android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 compose-plugin = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 android-junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "androidJUnit5" }
@@ -78,6 +82,9 @@ androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espres
 androidx-test-compose-ui-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "testComposeUi" }
 androidx-test-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "testComposeUi" }
 androidx-test-compose-ui-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "testComposeUi" }
+
+# Jetbrains
+kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
 
 # Google
 google-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltAndroid" }
