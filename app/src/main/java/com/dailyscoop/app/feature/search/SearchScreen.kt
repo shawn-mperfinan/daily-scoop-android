@@ -9,17 +9,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-internal fun SearchRouteConnector() {
-    SearchScreen(modifier = Modifier.fillMaxSize())
+internal fun NewsSearchRouteConnector() {
+    NewsSearchScreen(modifier = Modifier.fillMaxSize())
 }
 
 @Composable
-private fun SearchScreen(modifier: Modifier = Modifier) {
+private fun NewsSearchScreen(modifier: Modifier = Modifier) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,
     ) {
-        Text(text = "Search Screen")
+        Text(text = "News Search Screen")
     }
 }

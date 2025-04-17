@@ -9,11 +9,12 @@ import com.dailyscoop.app.feature.home.navigation.homeScreen
 import com.dailyscoop.app.feature.onboarding.navigation.onboardingScreen
 import com.dailyscoop.app.feature.profile.navigation.profileScreen
 import com.dailyscoop.app.feature.search.navigation.searchScreen
+import kotlin.reflect.KClass
 
 @Composable
 fun DailyScoopNavHost(
     navController: NavHostController,
-    startDestination: String,
+    startDestination: KClass<*>,
     modifier: Modifier = Modifier,
 ) {
     NavHost(

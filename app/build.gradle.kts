@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.android.hilt)
     alias(libs.plugins.android.junit5)
     alias(libs.plugins.compose.plugin)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 // Initialize for property retrieval on variables defined in [local.properties]
@@ -145,6 +146,7 @@ dependencies {
 
     // Navigation Compose
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.core)
 
     // Preferences Datastore
     implementation(libs.androidx.datastore.preferences)

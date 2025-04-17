@@ -1,37 +1,39 @@
 package com.dailyscoop.app.navigation
 
+import androidx.annotation.StringRes
 import com.dailyscoop.app.R
-import com.dailyscoop.app.feature.bookmarks.navigation.BOOKMARKS_ROUTE
-import com.dailyscoop.app.feature.home.navigation.HOME_ROUTE
-import com.dailyscoop.app.feature.profile.navigation.PROFILE_ROUTE
-import com.dailyscoop.app.feature.search.navigation.SEARCH_ROUTE
+import com.dailyscoop.app.feature.bookmarks.navigation.BookmarksRoute
+import com.dailyscoop.app.feature.home.navigation.HomeRoute
+import com.dailyscoop.app.feature.profile.navigation.ProfileRoute
+import com.dailyscoop.app.feature.search.navigation.NewsSearchRoute
+import kotlin.reflect.KClass
 
 enum class TopLevelDestination(
-    val route: String,
-    val label: Int,
+    val route: KClass<*>,
+    @StringRes val label: Int,
     val selectedIcon: Int,
     val unselectedIcon: Int,
 ) {
     HOME(
-        route = HOME_ROUTE,
+        route = HomeRoute::class,
         label = R.string.home_nav_label,
         selectedIcon = R.drawable.ic_home_selected,
         unselectedIcon = R.drawable.ic_home_unselected,
     ),
     SEARCH(
-        route = SEARCH_ROUTE,
+        route = NewsSearchRoute::class,
         label = R.string.search_nav_label,
         selectedIcon = R.drawable.ic_search_selected,
         unselectedIcon = R.drawable.ic_search_unselected,
     ),
     BOOKMARKS(
-        route = BOOKMARKS_ROUTE,
+        route = BookmarksRoute::class,
         label = R.string.bookmark_nav_label,
         selectedIcon = R.drawable.ic_bookmarks_selected,
         unselectedIcon = R.drawable.ic_bookmarks_unselected,
     ),
     PROFILE(
-        route = PROFILE_ROUTE,
+        route = ProfileRoute::class,
         label = R.string.profile_nav_label,
         selectedIcon = R.drawable.ic_profile_selected,
         unselectedIcon = R.drawable.ic_profile_unselected,

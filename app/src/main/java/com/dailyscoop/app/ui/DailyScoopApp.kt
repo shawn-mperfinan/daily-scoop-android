@@ -10,23 +10,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.dailyscoop.app.feature.onboarding.navigation.ONBOARDING_ROUTE
 import com.dailyscoop.app.navigation.DailyScoopNavHost
+import com.dailyscoop.app.navigation.TopLevelDestination.HOME
 import com.dailyscoop.app.navigation.topLevelDestinations
 import com.dailyscoop.app.ui.components.DailyScoopBottomBar
 import com.dailyscoop.app.utilities.navigateToMainLevelDestinationRoute
+import kotlin.reflect.KClass
 
 @Composable
 fun DailyScoopApp(
     navController: NavHostController,
-    startDestination: String,
+    startDestination: KClass<*>,
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStackEntry?.destination
 
     Scaffold(
         bottomBar = {
-            if (startDestination != ONBOARDING_ROUTE) {
+            if (startDestination == HOME.route) {
                 DailyScoopBottomBar(
                     destinations = topLevelDestinations,
                     currentDestination = currentDestination,

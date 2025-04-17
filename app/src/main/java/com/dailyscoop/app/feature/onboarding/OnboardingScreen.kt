@@ -273,7 +273,6 @@ private fun NavigationButton(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @PhonePreviews
 @Composable
 fun OnboardingScreenPreview() {
@@ -286,11 +285,11 @@ fun OnboardingScreenPreview() {
             onboardingNavigationScope = rememberCoroutineScope(),
             onboardingScreenItems = onboardingScreenItems,
             onboardingScreenCounts = onboardingScreenCounts,
+            onClickStartReading = {},
             modifier =
                 Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState()),
-            onClickStartReading = {},
         )
     }
 }

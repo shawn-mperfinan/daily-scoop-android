@@ -9,28 +9,28 @@ import androidx.compose.ui.tooling.preview.Preview
  */
 @Preview(
     name = "SmallPhonePreviewLight",
-    device = "spec:shape=Normal,width=320,height=533,unit=dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    showBackground = true,
-    backgroundColor = 0xF5F5F7,
-)
-@Preview(
-    name = "LargePhonePreviewLight",
-    device = "spec:shape=Normal,width=360,height=780,unit=dp,dpi=560",
+    device = "spec:width=320dp,height=533dp,dpi=240",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true,
     backgroundColor = 0xF5F5F7,
 )
 @Preview(
     name = "SmallPhonePreviewDark",
-    device = "spec:shape=Normal,width=320,height=533,unit=dp,dpi=240",
+    device = "spec:width=320dp,height=533dp,dpi=240",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true,
     backgroundColor = 0x1F1D2B,
 )
 @Preview(
+    name = "LargePhonePreviewLight",
+    device = "spec:width=360dp,height=780dp,dpi=560",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true,
+    backgroundColor = 0xF5F5F7,
+)
+@Preview(
     name = "LargePhonePreviewDark",
-    device = "spec:shape=Normal,width=360,height=780,unit=dp,dpi=560",
+    device = "spec:width=360dp,height=780dp,dpi=560",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true,
     backgroundColor = 0x1F1D2B,
