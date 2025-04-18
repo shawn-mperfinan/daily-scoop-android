@@ -1,18 +1,16 @@
-name: Review Android PR
+name: Review and Analyze Pull Request
 
 on:
   pull_request:
-    branches:
-      - review
-      - develop
-      - master
+    branches: [ review, develop, master ]
 
 jobs:
-  review:
+  pull_request_review:
+    name: PR Review with Static Analysis and Test Coverage
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Clone Repository
         uses: actions/checkout@v4
 
       - name: Set up JDK 21
@@ -22,10 +20,11 @@ jobs:
           java-version: 21
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.11.1
-          cache-read-only: false
+          # Only write to the cache for builds on the review branch.
+          cache-read-only: ${{ github.ref == 'refs/heads/review' }}
 
       - name: Set up Encrypted Keystore File
         run: |
