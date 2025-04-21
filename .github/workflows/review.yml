@@ -24,7 +24,7 @@ jobs:
         with:
           gradle-version: 8.11.1
           # Only write to the cache for builds on the review branch.
-          cache-read-only: ${{ github.ref == 'refs/heads/review' }}
+          cache-read-only: ${{ github.event.pull_request.base.ref != 'review' }}
 
       - name: Set up Encrypted Keystore File
         run: |
