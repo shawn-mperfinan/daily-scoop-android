@@ -1,7 +1,6 @@
 package com.dailyscoop.app.feature.onboarding
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -37,7 +35,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dailyscoop.app.R
 import com.dailyscoop.app.ui.core.PhonePreviews
 import com.dailyscoop.app.ui.theme.DailyScoopTheme
@@ -46,45 +43,25 @@ import com.dailyscoop.app.ui.theme.md_theme_light_surface
 import com.dailyscoop.app.utilities.EIGHT_PADDING
 import com.dailyscoop.app.utilities.EMPTY_STRING
 import com.dailyscoop.app.utilities.ONBOARDING_IMAGE_ALPHA
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun OnboardingScreenConnector() {
-    val viewModel: OnboardingVM = hiltViewModel()
+internal fun OnboardingScreen(onStartReading: (Boolean) -> Unit) {
     val onboardingScreenItems = onboardingScreenEntries
     val onboardingScreenCounts = onboardingScreenItems.size
 
-    OnboardingScreen(
-        pagerState = rememberPagerState { onboardingScreenCounts },
-        onboardingNavigationScope = rememberCoroutineScope(),
-        onboardingScreenItems = onboardingScreenItems,
-        onboardingScreenCounts = onboardingScreenCounts,
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-        onClickStartReading = viewModel::setIsAppFirstLaunch,
-    )
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-private fun OnboardingScreen(
-    pagerState: PagerState,
-    onboardingNavigationScope: CoroutineScope,
-    onboardingScreenItems: List<OnboardingScreenItem>,
-    onboardingScreenCounts: Int,
-    modifier: Modifier = Modifier,
-    onClickStartReading: (Boolean) -> Unit,
-) {
+    val onboardingNavigationScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState { onboardingScreenCounts }
     val currentPage = pagerState.currentPage
     val isLastOnboardingScreen = currentPage == onboardingScreenItems.lastIndex
     val shouldShowBackButton = currentPage > 0 && !isLastOnboardingScreen
 
     Column(
-        modifier = modifier,
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .background(color = MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround,
     ) {
@@ -104,7 +81,7 @@ private fun OnboardingScreen(
         )
 
         if (isLastOnboardingScreen) {
-            StartReadingButton(onClickStartReading)
+            StartReadingButton(onStartReading)
         } else {
             OnboardingNavigationButtons(
                 shouldShowBackButton = shouldShowBackButton,
@@ -276,20 +253,7 @@ private fun NavigationButton(
 @PhonePreviews
 @Composable
 fun OnboardingScreenPreview() {
-    val onboardingScreenItems = onboardingScreenEntries
-    val onboardingScreenCounts = onboardingScreenItems.size
-
     DailyScoopTheme {
-        OnboardingScreen(
-            pagerState = rememberPagerState { onboardingScreenCounts },
-            onboardingNavigationScope = rememberCoroutineScope(),
-            onboardingScreenItems = onboardingScreenItems,
-            onboardingScreenCounts = onboardingScreenCounts,
-            onClickStartReading = {},
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-        )
+        OnboardingScreen(onStartReading = {})
     }
 }
