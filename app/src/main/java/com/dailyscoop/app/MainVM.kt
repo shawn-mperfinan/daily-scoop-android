@@ -17,12 +17,13 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainVM @Inject constructor(
     newsRepository: INewsRepository,
-    userPreferencesRepository: IUserPreferencesRepository,
+    private val userPreferencesRepository: IUserPreferencesRepository,
 ) : ViewModel() {
     val mainUiState: StateFlow<MainUiState> =
         userPreferencesRepository.getIsAppFirstLaunch().map {
@@ -50,6 +51,12 @@ class MainVM @Inject constructor(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = ArticleUiState.Loading,
         )
+
+    fun setAppLaunched(value: Boolean) {
+        viewModelScope.launch {
+            userPreferencesRepository.setIsAppFirstLaunch(value)
+        }
+    }
 }
 
 private fun articleUiState(newsRepository: INewsRepository): Flow<ArticleUiState> {
@@ -91,6 +98,11 @@ sealed interface MainUiState {
     data object Loading : MainUiState
 
     data class Success(val userPreferencesData: UserPreferencesData) : MainUiState
+
+    /**
+     * Returns `true` if the state wasn't loaded yet and it should keep showing the splash screen
+     */
+    fun shouldKeepSplashScreen() = this is Loading
 }
 
 sealed interface NewsUiState {

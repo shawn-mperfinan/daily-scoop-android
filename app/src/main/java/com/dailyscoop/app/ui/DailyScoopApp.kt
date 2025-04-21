@@ -8,33 +8,27 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.dailyscoop.app.navigation.DailyScoopNavHost
-import com.dailyscoop.app.navigation.TopLevelDestination.HOME
 import com.dailyscoop.app.navigation.topLevelDestinations
 import com.dailyscoop.app.ui.components.DailyScoopBottomBar
 import com.dailyscoop.app.utilities.navigateToMainLevelDestinationRoute
-import kotlin.reflect.KClass
 
 @Composable
-fun DailyScoopApp(
-    navController: NavHostController,
-    startDestination: KClass<*>,
-) {
+fun DailyScoopApp() {
+    val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStackEntry?.destination
 
     Scaffold(
         bottomBar = {
-            if (startDestination == HOME.route) {
-                DailyScoopBottomBar(
-                    destinations = topLevelDestinations,
-                    currentDestination = currentDestination,
-                    onNavigateToDestinationRoute = navController::navigateToMainLevelDestinationRoute,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
+            DailyScoopBottomBar(
+                destinations = topLevelDestinations,
+                currentDestination = currentDestination,
+                onNavigateToDestinationRoute = navController::navigateToMainLevelDestinationRoute,
+                modifier = Modifier.fillMaxWidth(),
+            )
         },
     ) { scaffoldPadding ->
         Surface(
@@ -43,7 +37,6 @@ fun DailyScoopApp(
             DailyScoopNavHost(
                 navController = navController,
                 modifier = Modifier.padding(scaffoldPadding),
-                startDestination = startDestination,
             )
         }
     }
