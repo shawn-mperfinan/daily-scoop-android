@@ -1,6 +1,9 @@
 package com.dailyscoop.app.feature.onboarding
 
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,11 +28,14 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,6 +50,7 @@ import com.dailyscoop.app.utilities.EIGHT_PADDING
 import com.dailyscoop.app.utilities.EMPTY_STRING
 import com.dailyscoop.app.utilities.ONBOARDING_IMAGE_ALPHA
 import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
 
 @Composable
 internal fun OnboardingScreen(onStartReading: (Boolean) -> Unit) {
@@ -71,7 +78,11 @@ internal fun OnboardingScreen(onStartReading: (Boolean) -> Unit) {
             userScrollEnabled = !isLastOnboardingScreen,
             modifier = Modifier.wrapContentSize(),
         ) { currentPage ->
-            OnboardingPagerContent(currentOnboardingScreen = onboardingScreenItems[currentPage])
+            val pageOffset = (pagerState.currentPage - currentPage) + pagerState.currentPageOffsetFraction
+            OnboardingPagerContent(
+                currentOnboardingScreen = onboardingScreenItems[currentPage],
+                pagerOffset = pageOffset.coerceIn(-1f, 1f),
+            )
         }
 
         PageIndicators(
@@ -103,11 +114,33 @@ internal fun OnboardingScreen(onStartReading: (Boolean) -> Unit) {
 }
 
 @Composable
-private fun OnboardingPagerContent(currentOnboardingScreen: OnboardingScreenItem) {
+private fun OnboardingPagerContent(
+    currentOnboardingScreen: OnboardingScreenItem,
+    pagerOffset: Float,
+) {
     val imageTopPadding = (LocalConfiguration.current.screenHeightDp.div(EIGHT_PADDING)).dp
+    val imageAlpha by animateFloatAsState(targetValue = ONBOARDING_IMAGE_ALPHA, label = EMPTY_STRING)
+    val animationTween = tween<Float>(durationMillis = 300, easing = FastOutSlowInEasing)
+    val alpha by animateFloatAsState(
+        targetValue = 1f - pagerOffset.absoluteValue,
+        animationSpec = animationTween,
+        label = "fade",
+    )
+    val scale by animateFloatAsState(
+        targetValue = 1f - (0.1f * pagerOffset.absoluteValue),
+        animationSpec = animationTween,
+        label = "scale",
+    )
 
     Column(
-        modifier = Modifier.padding(horizontal = 24.dp),
+        modifier =
+            Modifier
+                .padding(horizontal = 24.dp)
+                .graphicsLayer {
+                    this.alpha = alpha
+                    this.scaleX = scale
+                    this.scaleY = scale
+                },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // TODO - update aspect ratio for later support on multiple screen densities
@@ -116,7 +149,8 @@ private fun OnboardingPagerContent(currentOnboardingScreen: OnboardingScreenItem
                 Modifier
                     .aspectRatio(ONBOARDING_IMAGE_ALPHA)
                     .fillMaxWidth()
-                    .padding(top = imageTopPadding),
+                    .padding(top = imageTopPadding)
+                    .alpha(imageAlpha),
             painter = painterResource(id = currentOnboardingScreen.media),
             contentDescription = null,
         )
@@ -157,7 +191,7 @@ private fun PageIndicators(
 
 @Composable
 private fun SingleDotIndicator(isSelected: Boolean) {
-    val indicatorWidth = animateDpAsState(targetValue = if (isSelected) 20.dp else 8.dp, label = EMPTY_STRING)
+    val indicatorWidth by animateDpAsState(targetValue = if (isSelected) 20.dp else 8.dp, label = EMPTY_STRING)
     val indicatorBackgroundColor =
         if (isSelected) daily_scoop_eastern_blue else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
 
@@ -165,7 +199,7 @@ private fun SingleDotIndicator(isSelected: Boolean) {
         modifier =
             Modifier
                 .padding(horizontal = 2.dp)
-                .width(indicatorWidth.value)
+                .width(indicatorWidth)
                 .height(8.dp)
                 .clip(CircleShape)
                 .background(indicatorBackgroundColor),

@@ -1,11 +1,13 @@
 package com.dailyscoop.app.feature.onboarding
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.dailyscoop.app.R
 
 enum class OnboardingScreenItem(
-    val media: Int,
-    val title: Int,
-    val description: Int,
+    @DrawableRes val media: Int,
+    @StringRes val title: Int,
+    @StringRes val description: Int,
 ) {
     DAILY_NEWS_HEADLINE(
         media = R.drawable.img_headline_onboarding,

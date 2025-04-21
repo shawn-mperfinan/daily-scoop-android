@@ -1,5 +1,6 @@
 package com.dailyscoop.app.navigation
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.dailyscoop.app.R
 import com.dailyscoop.app.feature.bookmarks.navigation.BookmarksRoute
@@ -11,8 +12,8 @@ import kotlin.reflect.KClass
 enum class TopLevelDestination(
     val route: KClass<*>,
     @StringRes val label: Int,
-    val selectedIcon: Int,
-    val unselectedIcon: Int,
+    @DrawableRes val selectedIcon: Int,
+    @DrawableRes val unselectedIcon: Int,
 ) {
     HOME(
         route = HomeRoute::class,
