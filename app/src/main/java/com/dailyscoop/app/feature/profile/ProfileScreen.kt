@@ -7,6 +7,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+
+const val PROFILE_SCREEN_TEST_TAG = "ProfileScreen"
 
 @Composable
 internal fun ProfileRouteConnector() {
@@ -18,7 +21,7 @@ private fun ProfileScreen(modifier: Modifier = Modifier) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
+        modifier = modifier.testTag(PROFILE_SCREEN_TEST_TAG),
     ) {
         Text(text = "Profile Screen")
     }

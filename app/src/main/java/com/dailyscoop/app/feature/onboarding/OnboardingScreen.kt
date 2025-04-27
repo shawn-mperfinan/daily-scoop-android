@@ -37,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -51,6 +52,11 @@ import com.dailyscoop.app.utilities.EMPTY_STRING
 import com.dailyscoop.app.utilities.ONBOARDING_IMAGE_ALPHA
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
+
+const val ONBOARDING_PAGER_TEST_TAG = "OnboardingPager"
+const val BACK_BUTTON_TEST_TAG = "BackNavigationButton"
+const val NEXT_BUTTON_TEST_TAG = "NextNavigationButton"
+const val START_READING_BUTTON_TEST_TAG = "StartReadingNavigationButton"
 
 @Composable
 internal fun OnboardingScreen(onStartReading: (Boolean) -> Unit) {
@@ -76,7 +82,10 @@ internal fun OnboardingScreen(onStartReading: (Boolean) -> Unit) {
             state = pagerState,
             verticalAlignment = Alignment.Top,
             userScrollEnabled = !isLastOnboardingScreen,
-            modifier = Modifier.wrapContentSize(),
+            modifier =
+                Modifier
+                    .wrapContentSize()
+                    .testTag(ONBOARDING_PAGER_TEST_TAG),
         ) { currentPage ->
             val pageOffset = (pagerState.currentPage - currentPage) + pagerState.currentPageOffsetFraction
             OnboardingPagerContent(
@@ -152,7 +161,7 @@ private fun OnboardingPagerContent(
                     .padding(top = imageTopPadding)
                     .alpha(imageAlpha),
             painter = painterResource(id = currentOnboardingScreen.media),
-            contentDescription = null,
+            contentDescription = stringResource(id = currentOnboardingScreen.title) + " Image",
         )
 
         Text(
@@ -215,7 +224,8 @@ private fun StartReadingButton(onClickStartReading: (Boolean) -> Unit) {
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp, vertical = 10.dp)
-                .clip(RoundedCornerShape(20.dp)),
+                .clip(RoundedCornerShape(20.dp))
+                .testTag(START_READING_BUTTON_TEST_TAG),
     ) {
         Text(
             modifier = Modifier.align(Alignment.CenterVertically),
@@ -242,12 +252,14 @@ private fun OnboardingNavigationButtons(
         if (shouldShowBackButton) {
             NavigationButton(
                 buttonLabel = stringResource(id = R.string.back_button_label),
+                testTag = BACK_BUTTON_TEST_TAG,
                 onClick = onBackClick,
             )
         }
 
         NavigationButton(
             buttonLabel = stringResource(id = R.string.next_button_label),
+            testTag = NEXT_BUTTON_TEST_TAG,
             fillColor = daily_scoop_eastern_blue,
             onClick = onNextClick,
         )
@@ -257,6 +269,7 @@ private fun OnboardingNavigationButtons(
 @Composable
 private fun NavigationButton(
     buttonLabel: String,
+    testTag: String,
     fillColor: Color = Color.Transparent,
     onClick: () -> Unit,
 ) {
@@ -273,7 +286,8 @@ private fun NavigationButton(
         modifier =
             Modifier
                 .width(86.dp)
-                .clip(RoundedCornerShape(20.dp)),
+                .clip(RoundedCornerShape(20.dp))
+                .testTag(testTag),
     ) {
         Text(
             modifier = Modifier.align(Alignment.CenterVertically),

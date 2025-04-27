@@ -1,4 +1,4 @@
-package com.dailyscoop.app
+package com.dailyscoop.app.db
 
 import com.dailyscoop.app.data.database.model.ArticleEntity
 import com.dailyscoop.app.data.database.model.subset.HeadlineSubSet
@@ -27,12 +27,7 @@ object FakeDataSource {
             externalId = "57fe599411e31393e29111b6510c8460",
         )
 
-    val localNewsArticles by lazy {
-        listOf(
-            com.dailyscoop.app.FakeDataSource.localNewsArticle1,
-            com.dailyscoop.app.FakeDataSource.localNewsArticle2,
-        )
-    }
+    val localNewsArticles by lazy { listOf(localNewsArticle1, localNewsArticle2) }
 
     val localNewsArticle1 =
         ArticleEntity(

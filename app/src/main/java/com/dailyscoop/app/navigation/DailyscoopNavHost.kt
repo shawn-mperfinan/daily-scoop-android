@@ -11,7 +11,7 @@ import com.dailyscoop.app.feature.profile.navigation.profileScreen
 import com.dailyscoop.app.feature.search.navigation.searchScreen
 
 @Composable
-fun DailyScoopNavHost(
+fun DailyscoopNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
