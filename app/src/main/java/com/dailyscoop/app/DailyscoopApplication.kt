@@ -4,4 +4,4 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class DailyScoopApplication : Application()
+class DailyscoopApplication : Application()

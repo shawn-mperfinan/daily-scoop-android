@@ -3,6 +3,6 @@
     <style name="Theme.App.AnimatedSplash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/eastern_blue</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/animated_splash_icon</item>
-        <item name="postSplashScreenTheme">@style/Theme.DailyScoop</item>
+        <item name="postSplashScreenTheme">@style/Theme.Dailyscoop</item>
     </style>
 </resources>

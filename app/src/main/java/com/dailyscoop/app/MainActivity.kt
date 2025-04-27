@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dailyscoop.app.feature.onboarding.OnboardingScreen
-import com.dailyscoop.app.ui.DailyScoopApp
+import com.dailyscoop.app.ui.DailyscoopApp
 import com.dailyscoop.app.ui.theme.DailyScoopTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     if (isAppFirstLaunch) {
                         OnboardingScreen { viewModel.setAppLaunched(it) }
                     } else {
-                        DailyScoopApp()
+                        DailyscoopApp()
                     }
                 }
             }

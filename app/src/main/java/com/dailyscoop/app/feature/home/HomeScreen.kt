@@ -7,7 +7,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+
+const val HOME_SCREEN_TEST_TAG = "HomeScreen"
 
 @Composable
 internal fun HomeRouteConnector() {
@@ -17,7 +20,7 @@ internal fun HomeRouteConnector() {
 
 @Composable
 private fun HomeScreen(modifier: Modifier = Modifier) {
-    LazyColumn {
+    LazyColumn(modifier = modifier.testTag(HOME_SCREEN_TEST_TAG)) {
         items(SAMPLE_ITEMS) {
             Text(
                 text = "News Item: $it",

@@ -9,6 +9,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -23,8 +24,10 @@ import com.dailyscoop.app.ui.theme.gilroyRegular
 import com.dailyscoop.app.utilities.isSelectedMainLevelDestination
 import kotlin.reflect.KClass
 
+const val BOTTOM_BAR_TEST_TAG = "BottomBar"
+
 @Composable
-fun DailyScoopBottomBar(
+fun DailyscoopBottomBar(
     destinations: List<TopLevelDestination>,
     currentDestination: NavDestination?,
     onNavigateToDestinationRoute: (KClass<*>) -> Unit,
@@ -34,7 +37,7 @@ fun DailyScoopBottomBar(
     NavigationBar(
         tonalElevation = 0.dp,
         containerColor = colorScheme.surface,
-        modifier = modifier,
+        modifier = modifier.testTag(BOTTOM_BAR_TEST_TAG),
     ) {
         destinations.forEach { destination ->
             val isDestinationSelected = currentDestination.isSelectedMainLevelDestination(destination.route)
@@ -43,6 +46,7 @@ fun DailyScoopBottomBar(
             val labelTextStyle = MaterialTheme.typography.labelMedium.copy(fontFamily = labelTextFontFamily)
 
             NavigationBarItem(
+                modifier = Modifier.testTag(destination.testTag),
                 colors =
                     NavigationBarItemDefaults.colors(
                         indicatorColor = colorScheme.secondaryContainer,
@@ -74,7 +78,7 @@ fun DailyScoopBottomBar(
 @Composable
 fun DailyScoopBottomBarPreview() {
     DailyScoopTheme {
-        DailyScoopBottomBar(
+        DailyscoopBottomBar(
             destinations = topLevelDestinations,
             currentDestination = null,
             onNavigateToDestinationRoute = {},
